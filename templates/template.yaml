@@ -50,8 +50,8 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./catalog/component
-        targetPath: ./catalog
+        url: ./catalog
+        # targetPath: ./catalog
         values:
           name: ${{ parameters.name }}
           owner: ${{ parameters.owner }}
