@@ -50,18 +50,34 @@ spec:
       name: Fetch Catalog
       action: fetch:template
       input:
-        url: ./catalog
+        url: ../catalog
         # targetPath: ./catalog
         values:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
 
+    - name: Write Catalog information
+      action: catalog:write
+      input:
+        entity:
+          apiVersion: 'backstage.io/v1alpha1'
+          kind: Component
+          metadata:
+            name: ${{ parameters.projectName }}
+            annotations:
+              github.com/project-slug: ${{ parameters.repoUrl | projectSlug }}
+          spec:
+            type: service
+            lifecycle: production
+            owner: ${{ parameters.userName }}
+        filePath: 'catalog-info.yaml'
+
     - id: fetch-cicd
       name: Fetch CI/CD
       action: fetch:template
       input:
-        url: ./cicd
+        url: ../cicd
         targetPath: ./pipeline
         values:
           projectName: ${{ parameters.projectName }}
