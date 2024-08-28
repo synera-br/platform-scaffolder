@@ -92,6 +92,13 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 
+
+    - id: wait
+      name: wait
+      action: debug:wait
+      input:
+        seconds: 60
+
     - id: dispatch
       name: dispatch
       action: github:actions:dispatch
