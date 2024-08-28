@@ -5,7 +5,6 @@ metadata:
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif  %}
-
 spec:
   type: service
   lifecycle: production
