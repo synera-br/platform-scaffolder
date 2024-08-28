@@ -96,7 +96,7 @@ spec:
       name: dispatch
       action: publish:actions:dispatch
       input:
-        workflowId: full
+        workflowId: full.yaml
         branchOrTagName: master
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
