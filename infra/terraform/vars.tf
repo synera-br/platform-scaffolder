@@ -1,12 +1,12 @@
 variable "projectName" {
   type        = string
-  default     = "projectName" //"${{ values.projectName | replace(" ", "-") | lower}}"
+  default     = "${{ values.projectName | replace(" ", "-") | lower}}"
   description = "Project name to create Cloud resources"
 }
 
 variable "projectOwner" {
   type        = string
-  default     = "owner" // "${{ values.userName | lower}}"
+  default     = "${{ values.userName | lower}}"
   description = "Owner of project"
 }
 
