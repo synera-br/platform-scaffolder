@@ -1,5 +1,5 @@
 ---
-name: build
+name: dispatch
 on:
   workflow_dispatch:
   push:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  dispatch:
     name: Build
     runs-on: ubuntu-20.04
     steps:
