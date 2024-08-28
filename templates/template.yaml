@@ -32,7 +32,7 @@ spec:
           ttile: Project name
           type: string
           description: Project name to be create
-        projectName:
+        projectLabels:
           ttile: Project labels
           type: string
           description: Set labels for this project
