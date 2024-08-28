@@ -1,13 +1,14 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ values.name | replace(" ", "-") | lower}}
-  description: ${{ values.description | lower}}
+  name: ${{ values.projectName | replace(" ", "-") | lower}}
+  {%- if values.description %}
+  description: ${{values.description | dump}}
+  {%- endif  %}
+
 spec:
-  type: ${{ values.componentType | lower}}
+  type: service
   lifecycle: production
-  owner: ${{ values.userEmail | lower}}
+  owner: ${{ values.userName | lower}}
   system: platform-develop
-  dependsOn:
-    - resource: ${{ values.componentDependsOnResources | lower}}
-  providesApis: ${{ values.providesApis }}
+
