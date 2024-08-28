@@ -1,14 +1,17 @@
 ---
-name: dispatch
-on:
+name: full
 
-  workflow_dispatch:
+on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: 
 
 jobs:
-  dispatch:
+  full:
     name: Build
     runs-on: ubuntu-20.04
     steps:
