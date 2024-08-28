@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | replace(" ", "-") | lower}}
+  description: ${{ values.description | lower}}
+spec:
+  type: ${{ values.componentType | lower}}
+  lifecycle: production
+  owner: ${{ values.userEmail | lower}}
+  system: platform-develop
+  dependsOn:
+    - resource: ${{ values.componentDependsOnResources | lower}}
+  providesApis: ${{ values.providesApis }}
