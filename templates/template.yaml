@@ -50,7 +50,7 @@ spec:
       name: Fetch Catalog
       action: fetch:template
       input:
-        url: ../catalog
+        url: ../catalog/component
         # targetPath: ./catalog
         values:
           projectName: ${{ parameters.projectName }}
@@ -78,7 +78,7 @@ spec:
       action: fetch:template
       input:
         url: ../cicd
-        targetPath: ./pipeline
+        targetPath: ./
         values:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
