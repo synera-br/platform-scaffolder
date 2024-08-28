@@ -94,7 +94,7 @@ spec:
 
     - id: dispatch
       name: dispatch
-      action: publish:actions:dispatch
+      action: github:actions:dispatch
       input:
         workflowId: full.yaml
         branchOrTagName: master
