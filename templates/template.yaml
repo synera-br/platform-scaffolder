@@ -94,7 +94,7 @@ spec:
       name: working in repository
       action: debug:wait
       input:
-        seconds: 5
+        seconds: 10
 
     - id: get-secrets
       name: getting secrets
@@ -107,9 +107,11 @@ spec:
     - id: debug-secrets
       name: working in repository
       action: debug:log
+      each: ${{ steps['get-secrets'].output  }}
       input:
         message: |
-          ${{ steps.get-secrets.output }}
+          ${{ each.key }}
+          ${{ each.value }}
           
     - id: dispatch
       name: dispatch
