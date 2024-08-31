@@ -108,7 +108,7 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         secrets:
-          ${{ each.key }}: ${{ each.value}} 
+          ${{ each.key |replace(' ', '') }}: ${{ each.value}} 
           
     - id: wait
       name: working in repository
