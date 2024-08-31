@@ -132,7 +132,7 @@ spec:
       name: working in repository
       action: debug:wait
       input:
-        seconds: 10
+        seconds: 15
 
     - id: dispatch
       name: dispatch
