@@ -101,14 +101,20 @@ spec:
         
     - id: publish
       name: Publish
-      each: ${{ steps['get-secrets'].output  }}
       action: publish:github
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         secrets:
-          ${{ each.key |replace(' ', '') }}: ${{ each.value}} 
+          ARM_CLIENT_ID: ${{ steps['get-secrets'].output['ARM_CLIENT_ID'] }}
+          ARM_SUBSCRIPTION_ID: ${{ steps['get-secrets'].output['ARM_SUBSCRIPTION_ID'] }}
+          ARM_CLIENT_SECRET: ${{ steps['get-secrets'].output['ARM_CLIENT_SECRET'] }}
+          ARM_TENANT_ID: ${{ steps['get-secrets'].output['ARM_TENANT_ID'] }}
+          DOCKER_HUB_LOGIN: ${{ steps['get-secrets'].output['DOCKER_HUB_LOGIN'] }}
+          GITHUB_CLIENT_ID: ${{ steps['get-secrets'].output['GITHUB_CLIENT_ID'] }}
+          GITHUB_CLIENT_SECRET: ${{ steps['get-secrets'].output['GITHUB_CLIENT_SECRET'] }}
+          GITHUB_TOKEN: ${{ steps['get-secrets'].output['GITHUB_TOKEN'] }}
           
     - id: wait
       name: working in repository
