@@ -30,6 +30,7 @@ spec:
           ttile: Project name
           type: string
           description: Project name to be create
+          default: platform6
         projectLabels:
           ttile: Project labels
           type: string
@@ -81,6 +82,17 @@ spec:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
+
+    - id: fetch-infra
+      name: Fetch infra as code
+      action: fetch:template
+      input:
+        url: ../infra
+        targetPath: ./
+        values:
+          projectName: ${{ parameters.projectName }}
+          userName: ${{ parameters.userName }}
+          description: description
           
     - id: get-secrets
       name: getting secrets
@@ -122,23 +134,14 @@ spec:
       input:
         seconds: 10
 
-
-
     - id: dispatch
       name: dispatch
       action: github:actions:dispatch
       input:
-        workflowId: dispatch.yaml
+        workflowId: infra.yaml
         branchOrTagName: master
         description: This is 
         repoUrl: ${{ parameters.repoUrl }}
-
-    # - id: register
-    #   name: Register
-    #   action: catalog:register
-    #   input:
-    #     repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-    #     catalogInfoPath: '/catalog-info.yaml'
 
   output:
     links:
