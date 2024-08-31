@@ -119,7 +119,7 @@ spec:
       each: ${{ steps['get-secrets'].output  }}
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        name: production
+        name: Actions
         secrets:
           ${{ each.key }}: ${{ each.value}} 
           
