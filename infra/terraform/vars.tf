@@ -1,3 +1,29 @@
+##############################
+### Default configurations ###
+variable "name" {
+  type        = string
+  default     = "platfrom"
+  description = "Name of Azure resource"
+}
+
+variable "name_id" {
+  type        = number
+  default     = 00003
+  description = "ID to generate a different resources"
+}
+
+variable "location" {
+  type        = string
+  default     = "East US"
+  description = "The Azure region to deploy resources"
+
+  validation {
+    condition = contains(["East US", "West US", "Brazil South", "Brazil"], var.location)
+
+    error_message = "The location available are: 'East US', 'West US', 'Brazil South', and 'Brazil'"
+  }
+}
+
 variable "projectName" {
   type        = string
   default     = "${{ values.projectName | replace(" ", "-") | lower}}"
