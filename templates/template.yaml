@@ -94,10 +94,10 @@ spec:
       name: working in repository
       action: debug:wait
       input:
-        seconds: 10
+        seconds: 5
 
     - id: get-secrets
-      name: Template Docs Skeleton
+      name: getting secrets
       action: azure:keyvault
       input:
         secretName: ${{ parameters.secretName }}
@@ -110,6 +110,7 @@ spec:
       input:
         message: |
           ${{ steps.get-secrets.output }}
+          
     - id: dispatch
       name: dispatch
       action: github:actions:dispatch
