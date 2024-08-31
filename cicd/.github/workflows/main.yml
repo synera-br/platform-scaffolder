@@ -61,27 +61,39 @@ jobs:
         terraform output
       working-directory: ./infra/terraform
 
-    - name: Terraform output kube_config_raw
-      if: env.ACTION == 'apply'
-      run: |
-        terraform output -raw  kube_config_raw
-      working-directory: ./infra/terraform
+    # - name: Terraform output kube_config_raw
+    #   if: env.ACTION == 'apply'
+    #   run: |
+    #     terraform output -raw  kube_config_raw
+    #   working-directory: ./infra/terraform
 
-    - name: Terraform output kube_config
-      id: aks_cluster_name
-      if: env.ACTION == 'apply'
-      run: |
-        OUTPUT=$(terraform output -raw kube_config_raw|base64 -w 0)
-        echo "::set-output name=CONFIG::$OUTPUT"
-      working-directory: ./infra/terraform
+    # - name: Terraform output kube_config
+    #   id: aks_cluster_name
+    #   if: env.ACTION == 'apply'
+    #   run: |
+    #     OUTPUT=$(terraform output -raw kube_config_raw|base64 -w 0)
+    #     echo "::set-output name=CONFIG::$OUTPUT"
+    #   working-directory: ./infra/terraform
 
-    - name: Terraform output environment
+    - name: Terraform output project name
       id: environment
       if: env.ACTION == 'apply'
       run: |
         OUTPUT=$(terraform output environment)
         echo "::set-output name=ENV::$OUTPUT"
       working-directory: ./infra/terraform
+
+    - name: RabbitMQ Message Sender
+      uses: eferraris/rabbit-sender@v1.4
+      with:
+          MESSAGE: "Test message"
+          RABBIT_QUEUE_NAME: "test-rabbit-queue"
+          RABBIT_HOST: ${{ secrets.RABBIT_HOST }}
+          RABBIT_USERNAME: ${{ secrets.RABBIT_USERNAME }}
+          RABBIT_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
+          RABBIT_PORT: 5672
+          RABBIT_USE_SSL: true
+          DURABLE: false
    
   # otel-export-trace:
   #   if: always()

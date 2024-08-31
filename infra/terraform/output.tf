@@ -28,3 +28,8 @@ output "projectOwner" {
   value       = local.owner
   description = "Project owner"
 }
+
+output "environment" {
+  value       = local.name
+  description = "Environment"
+}
