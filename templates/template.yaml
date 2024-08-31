@@ -112,9 +112,9 @@ spec:
           ARM_CLIENT_SECRET: ${{ steps['get-secrets'].output['ARM_CLIENT_SECRET'] }}
           ARM_TENANT_ID: ${{ steps['get-secrets'].output['ARM_TENANT_ID'] }}
           DOCKER_HUB_LOGIN: ${{ steps['get-secrets'].output['DOCKER_HUB_LOGIN'] }}
-          GITHUB_CLIENT_ID: ${{ steps['get-secrets'].output['GITHUB_CLIENT_ID'] }}
-          GITHUB_CLIENT_SECRET: ${{ steps['get-secrets'].output['GITHUB_CLIENT_SECRET'] }}
-          GITHUB_TOKEN: ${{ steps['get-secrets'].output['GITHUB_TOKEN'] }}
+          GIT_CLIENT_ID: ${{ steps['get-secrets'].output['GITHUB_CLIENT_ID'] }}
+          GIT_CLIENT_SECRET: ${{ steps['get-secrets'].output['GITHUB_CLIENT_SECRET'] }}
+          GIT_TOKEN: ${{ steps['get-secrets'].output['GITHUB_TOKEN'] }}
           
     - id: wait
       name: working in repository
