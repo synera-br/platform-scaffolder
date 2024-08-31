@@ -10,9 +10,6 @@ spec:
 
   parameters:
     - title: User info
-      required:
-        - userEmail
-        - userName
       properties:
         userName:
           ttile: User name 
