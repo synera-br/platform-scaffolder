@@ -1,4 +1,4 @@
-name: terraform-deployment
+name: infra
 run-name: Terraform deployment resources in Azure CI
 
 on:
