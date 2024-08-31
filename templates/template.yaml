@@ -112,6 +112,16 @@ spec:
         message: |
           ${{ each.key }}
           ${{ each.value }}
+
+    - id: create-secrets
+      name: importing secrets to repository
+      action: github:environment:create
+      each: ${{ steps['get-secrets'].output  }}
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        name: production
+        secrets:
+          ${{ each.key }}: ${{ each.value}} 
           
     - id: dispatch
       name: dispatch
