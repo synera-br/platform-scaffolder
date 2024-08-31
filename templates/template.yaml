@@ -18,11 +18,12 @@ spec:
           ttile: User name 
           type: string
           description: User logged
-          # ui:field: 
+          ui:field: UserFieldName
         userEmail:
           ttile: Email of user
           type: string
           description: Email of user logged
+          ui:field: UserFieldEmail
     - title: Project info
       required:
         - projectName
@@ -92,12 +93,19 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 
-
     - id: wait
-      name: wait
+      name: working in repository
       action: debug:wait
       input:
-        seconds: 60
+        seconds: 10
+
+    - id: fetch
+      name: Template Docs Skeleton
+      action: azure:keyvault
+      input:
+        secretName: ${{ parameters.secretName }}
+        vaultName: ${{ parameters.vaultName }}
+        subscription: ${{ parameters.subscription }}
 
     - id: dispatch
       name: dispatch
