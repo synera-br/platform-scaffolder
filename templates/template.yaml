@@ -99,7 +99,7 @@ spec:
       input:
         seconds: 10
 
-    - id: fetch
+    - id: get-secrets
       name: Template Docs Skeleton
       action: azure:keyvault
       input:
@@ -107,6 +107,12 @@ spec:
         vaultName: ${{ parameters.vaultName }}
         subscription: ${{ parameters.subscription }}
 
+    - id: debug-secrets
+      name: working in repository
+      action: debug:log
+      input:
+        message: |
+          ${{ steps.get-secrets.output }}
     - id: dispatch
       name: dispatch
       action: github:actions:dispatch
