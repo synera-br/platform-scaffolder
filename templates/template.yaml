@@ -81,21 +81,7 @@ spec:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
-  
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
-
-    - id: wait
-      name: working in repository
-      action: debug:wait
-      input:
-        seconds: 10
-
+          
     - id: get-secrets
       name: getting secrets
       action: azure:keyvault
@@ -106,23 +92,32 @@ spec:
 
     - id: debug-secrets
       name: working in repository
-      action: debug:log
+      action: debug:log      
       each: ${{ steps['get-secrets'].output  }}
       input:
         message: |
           ${{ each.key }}
-          ${{ each.value }}
-
-    - id: create-secrets
-      name: importing secrets to repository
-      action: github:environment:create
+          ${{ each.value }}          
+        
+    - id: publish
+      name: Publish
       each: ${{ steps['get-secrets'].output  }}
+      action: publish:github
       input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
-        name: Actions
         secrets:
           ${{ each.key }}: ${{ each.value}} 
           
+    - id: wait
+      name: working in repository
+      action: debug:wait
+      input:
+        seconds: 10
+
+
+
     - id: dispatch
       name: dispatch
       action: github:actions:dispatch
