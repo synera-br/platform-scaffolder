@@ -138,7 +138,7 @@ spec:
       name: dispatch
       action: github:actions:dispatch
       input:
-        workflowId: infra.yaml
+        workflowId: main.yaml
         branchOrTagName: master
         description: This is 
         repoUrl: ${{ parameters.repoUrl }}
