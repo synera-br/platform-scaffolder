@@ -52,6 +52,12 @@ spec:
       input:
         message: ${{ parameters.userName }}
 
+    - id: debug-email
+      name: Debug userEmail
+      action: debug:log
+      input:
+        message: ${{ parameters.userEmail }}
+
     - id: fetch-catalog
       name: Fetch Catalog
       action: fetch:template
