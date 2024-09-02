@@ -33,3 +33,8 @@ output "environment" {
   value       = local.name
   description = "Environment"
 }
+
+output "entity_rsg" {
+  value = module.entity_rsg
+  description = "Resource Group Backstage entity"
+}

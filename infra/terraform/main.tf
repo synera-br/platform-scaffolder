@@ -10,7 +10,6 @@ locals {
   environment = "development"
 }
 
-
 module "resource_group" {
   source   = "./modules/rsg"
   tags     = local.labels
