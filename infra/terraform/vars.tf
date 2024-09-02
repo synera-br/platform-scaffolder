@@ -44,6 +44,6 @@ variable "tags" {
 
 variable "labels" {
   type        = map(string)
-  default     =  {} //${{ values.labels | lower}}
+  default     =  {}
   description = "Labels to registry in Backstage and Cloud resources"
 }

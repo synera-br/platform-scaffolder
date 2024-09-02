@@ -17,3 +17,13 @@ module "resource_group" {
   name     = local.name
   location = var.location
 }
+
+module "entity_rsg" {
+  kind      = "resource"
+  name      = module.resource_group.name
+  namespace = "default"
+  type      = "resource_group"
+  owner     = var.projectOwner
+  lifecycle = "production"
+  system    = var.projectName
+}
