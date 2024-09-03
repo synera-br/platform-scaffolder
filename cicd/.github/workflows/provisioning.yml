@@ -1,4 +1,4 @@
-name: main
+name: provisioning
 run-name: Terraform deployment resources in Azure CI
 
 on:
@@ -17,7 +17,7 @@ env:
 jobs:
   callScanTerraform:
     name: Provisioning
-    uses: ./.github/workflows/terraform.yaml
+    uses: ./.github/workflows/terraform.yml
 
   terraform:
     needs: callScanTerraform
