@@ -19,7 +19,7 @@ module "resource_group" {
 
 module "identity" {
   source         = "./modules/idm"
-  tags           = local.tags
+  tags           = local.labels
   name           = local.name
   location       = var.location
   resource_group = module.resource_group.name
@@ -27,14 +27,14 @@ module "identity" {
 
 module "private_dns" {
   source         = "./modules/private_dns"
-  tags           = local.tags
+  tags           = local.labels
   name           = local.private_domain
   resource_group = module.resource_group.name
 }
 
 module "log_analytics" {
   source         = "./modules/law"
-  tags           = local.tags
+  tags           = local.labels
   name           = local.name
   resource_group = module.resource_group.name
   identity = {

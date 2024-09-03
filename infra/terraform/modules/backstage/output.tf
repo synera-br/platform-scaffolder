@@ -1,4 +1,4 @@
 output "entity_json" {
-  value       = local.object
+  value       = jsonencode(local.object)
   description = "The JSON representation of the Backstage Entity"
 }

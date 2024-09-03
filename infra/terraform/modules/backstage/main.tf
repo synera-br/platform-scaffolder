@@ -3,7 +3,7 @@ locals {
     upper(substr(var.kind, 0, 1)) 
     + lower(substr(var.kind, 1, length(var.kind) - 1))
   )
-  object = jsondecode({
+  object = {
     kind = local.kind
     metadata = {
       namespace   = var.namespace
@@ -18,5 +18,5 @@ locals {
       owner     = var.owner
       system    = var.system
     }
-  })
+  }
 }

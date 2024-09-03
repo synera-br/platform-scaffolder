@@ -35,7 +35,7 @@ output "environment" {
 }
 
 output "entity_rsg" {
-  value = module.entity_rsg
+  value = jsonencode(module.entity_rsg.entity_json)
   description = "Resource Group Backstage entity"
 }
 
