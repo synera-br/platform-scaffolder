@@ -1,6 +1,10 @@
 locals {
+    kind = (
+    upper(substr(var.kind, 0, 1)) 
+    + lower(substr(var.kind, 1, length(var.kind) - 1))
+  )
   object = jsondecode({
-    kind = var.kind
+    kind = local.kind
     metadata = {
       namespace   = var.namespace
       name        = var.name

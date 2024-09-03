@@ -38,3 +38,23 @@ output "entity_rsg" {
   value = module.entity_rsg
   description = "Resource Group Backstage entity"
 }
+
+output "resource_group" {
+  value = module.resource_group.raw
+  description = "Resource Group Backstage entity"
+}
+
+output "identity" {
+  value = module.identity.raw
+  description = "Resource Group Backstage entity"
+}
+
+output "private_dns" {
+  value = module.private_dns.raw
+  description = "Resource Group Backstage entity"
+}
+
+output "log_analytics" {
+  value = module.log_analytics.raw
+  description = "Resource Group Backstage entity"
+}

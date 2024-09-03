@@ -84,18 +84,25 @@ jobs:
       id: environment
       if: env.ACTION == 'apply'
       run: |
-        OUTPUT=$(terraform output environment)
+        OUTPUT=$(terraform output -raw entity_rsg))
         echo "::set-output name=ENV::$OUTPUT"
       working-directory: ./infra/terraform
 
+    - name: Terraform graph
+      run: |
+        terraform graph
+      working-directory: ./infra/terraform
+
     - name: RabbitMQ Message Sender
-      uses: eferraris/rabbit-sender@v1.4
+      uses: bulathacl/rabbitmq-publish-message@v1.0.0
       with:
-          MESSAGE: "Test message"
-          RABBIT_QUEUE_NAME: "test-rabbit-queue"
-          RABBIT_HOST: ${{ secrets.RABBIT_HOST }}
-          RABBIT_USERNAME: ${{ secrets.RABBIT_USERNAME }}
-          RABBIT_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
+          MESSAGE: ${{ steps.environment.outputs.ENV }}
+          QUEUENAME: "main_queue"
+          HEADERS: "backstage/kind:ok"
+          RABBITMQ_HOST: ${{ secrets.RABBIT_HOST }}
+          RABBITMQ_USERNAME: ${{ secrets.RABBIT_USERNAME }}
+          RABBITMQ_VHOSTNAME: ${{ secrets.RABBIT_USERNAME }}
+          RABBITMQ_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
           RABBIT_PORT: 5672
           RABBIT_USE_SSL: true
           DURABLE: false

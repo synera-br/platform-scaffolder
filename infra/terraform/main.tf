@@ -17,12 +17,42 @@ module "resource_group" {
   location = var.location
 }
 
+module "identity" {
+  source         = "./modules/idm"
+  tags           = local.tags
+  name           = local.name
+  location       = var.location
+  resource_group = module.resource_group.name
+}
+
+module "private_dns" {
+  source         = "./modules/private_dns"
+  tags           = local.tags
+  name           = local.private_domain
+  resource_group = module.resource_group.name
+}
+
+module "log_analytics" {
+  source         = "./modules/law"
+  tags           = local.tags
+  name           = local.name
+  resource_group = module.resource_group.name
+  identity = {
+    type         = "UserAssigned"
+    identity_ids = [module.identity.id]
+  }
+  sku               = var.law_sku
+  retention_in_days = var.retention_in_days
+}
+
+
 module "entity_rsg" {
+  source   = "./modules/backstage"
   kind      = "resource"
   name      = module.resource_group.name
   namespace = "default"
   type      = "resource_group"
   owner     = var.projectOwner
-  lifecycle = "production"
+  environment = "production"
   system    = var.projectName
 }
