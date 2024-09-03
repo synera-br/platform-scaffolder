@@ -34,7 +34,7 @@ variable "owner" {
   description = "Owner of backstage entity"
 }
 
-variable "lifecycle" {
+variable "environment" {
   type        = string
   default     = "production"
   description = "Lifecycle of backstage entity"
@@ -59,6 +59,6 @@ variable "tags" {
 
 variable "labels" {
   type        = map(string)
-  default     = []
+  default     = {}
   description = "Labels of backstage entity"
 }

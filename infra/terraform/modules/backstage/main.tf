@@ -10,7 +10,7 @@ locals {
     }
     spec = {
       type      = var.type
-      lifecycle = var.lifecycle
+      lifecycle = var.environment
       owner     = var.owner
       system    = var.system
     }
