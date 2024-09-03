@@ -2,6 +2,7 @@ name: main
 run-name: Terraform deployment resources in Azure CI
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches:
