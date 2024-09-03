@@ -3,10 +3,6 @@ run-name: Terraform deployment resources in Azure CI
 
 on:
   workflow_call:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
 
 env:
   ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
