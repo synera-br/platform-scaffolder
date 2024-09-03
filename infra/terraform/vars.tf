@@ -24,6 +24,41 @@ variable "location" {
   }
 }
 
+
+##############################
+## Azure Private DNS #########
+
+variable "private_domain" {
+  type        = string
+  default     = ""
+  description = "Name to create a private dns zone"
+}
+
+##############################
+## Azure Kubernetes Service ##
+
+variable "dns_prefix" {
+  type        = string
+  default     = "internal"
+  description = "DNS prefix to deploy with kubernetes"
+}
+
+
+##############################
+## Log analytics workspace ###
+variable "retention_in_days" {
+  type        = number
+  default     = 30
+  description = "Number of days to retention the logs"
+}
+
+variable "law_sku" {
+  type        = string
+  default     = "PerGB2018"
+  description = "Specifies the SKU of the Log Analytics Workspace"
+}
+
+
 variable "projectName" {
   type        = string
   default     = "${{ values.projectName | replace(" ", "-") | lower}}"

@@ -1,10 +1,7 @@
 locals {
-    kind = (
-    upper(substr(var.kind, 0, 1)) 
-    + lower(substr(var.kind, 1, length(var.kind) - 1))
-  )
+
   object = {
-    kind = local.kind
+    kind = "Resource"
     metadata = {
       namespace   = var.namespace
       name        = var.name

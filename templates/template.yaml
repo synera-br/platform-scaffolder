@@ -30,8 +30,9 @@ spec:
           ttile: Project name
           type: string
           description: Project name to be create
-          default: platform-tes
-          maxLength: 12
+          default: platfor
+          maxLength: 7
+          minLength: 7
         projectLabels:
           ttile: Project labels
           type: string
@@ -87,7 +88,7 @@ spec:
 
     - id: fetch-cicd
       name: Fetch CI/CD
-      action: fetch:template
+      action: fetch:plain:file
       input:
         url: ../cicd
         targetPath: ./
@@ -131,6 +132,7 @@ spec:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
         secrets:
           ARM_CLIENT_ID: ${{ steps['get-secrets'].output['ARM_CLIENT_ID'] }}
           ARM_SUBSCRIPTION_ID: ${{ steps['get-secrets'].output['ARM_SUBSCRIPTION_ID'] }}
@@ -157,7 +159,7 @@ spec:
       action: github:actions:dispatch
       input:
         workflowId: main.yml
-        branchOrTagName: master
+        branchOrTagName: main
         description: This is 
         repoUrl: ${{ parameters.repoUrl }}
 

@@ -1,4 +1,4 @@
-name: infra
+name: main
 run-name: Terraform deployment resources in Azure CI
 
 on:
@@ -8,9 +8,9 @@ on:
       - main
 
 env:
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+  ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ACTION: apply
 
@@ -19,8 +19,8 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     outputs:
-      kube_config: ${{ steps.aks_cluster_name.outputs.CONFIG }}
-      env: ${{ steps.environment.outputs.ENV }}
+      kube_config: ${{steps.aks_cluster_name.outputs.CONFIG}}
+      env: ${{steps.environment.outputs.ENV}}
 
     defaults:
       run:

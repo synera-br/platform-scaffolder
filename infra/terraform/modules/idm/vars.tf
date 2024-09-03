@@ -6,6 +6,7 @@ variable "name" {
     condition     = length(var.name) == 12
     error_message = "The identity name should be a 12 character"
   }
+  
   validation {
     condition     = can(regex("^[a-z]{1,7}[0-9]{1,5}$", var.name))
     error_message = "The identity name should be starts with character"
