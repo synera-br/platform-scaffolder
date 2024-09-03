@@ -2,7 +2,7 @@
 ### Default configurations ###
 variable "name" {
   type        = string
-  default     = "platfrom"
+  default     = "${{ values.projectName | replace(" ", "-") | lower}}"
   description = "Name of Azure resource"
 }
 

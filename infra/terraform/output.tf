@@ -8,7 +8,6 @@ output "managed" {
   description = "Manage resources"
 }
 
-
 output "tags" {
   value       = local.tags
   description = "Tags to filter resources"
@@ -57,5 +56,5 @@ output "private_dns" {
 output "log_analytics" {
   value = module.log_analytics.raw
   description = "Resource Group Backstage entity"
-   sensitive = true
+  sensitive = true
 }

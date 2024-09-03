@@ -18,7 +18,6 @@ variable "tags" {
   description = "List of tags to resource group."
 }
 
-
 variable "location" {
   type        = string
   default     = "East US"
@@ -26,9 +25,6 @@ variable "location" {
 
   validation {
     condition = contains(["East US", "West US", "Brazil South", "Brazil"], var.location)
-
     error_message = "The location available are: 'East US', 'West US', 'Brazil South', and 'Brazil'"
   }
-
-
 }

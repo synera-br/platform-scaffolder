@@ -46,7 +46,6 @@ module "log_analytics" {
   retention_in_days = var.retention_in_days
 }
 
-
 module "entity_rsg" {
   source   = "./modules/backstage"
   kind      = "resource"
