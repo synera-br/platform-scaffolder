@@ -57,4 +57,5 @@ output "private_dns" {
 output "log_analytics" {
   value = module.log_analytics.raw
   description = "Resource Group Backstage entity"
+   sensitive = true
 }

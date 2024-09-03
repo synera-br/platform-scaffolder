@@ -84,7 +84,7 @@ jobs:
       id: environment
       if: env.ACTION == 'apply'
       run: |
-        OUTPUT=$(terraform output -raw entity_rsg))
+        OUTPUT=$(terraform output -raw entity_rsg)
         echo "::set-output name=ENV::$OUTPUT"
       working-directory: ./infra/terraform
 

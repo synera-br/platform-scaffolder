@@ -8,6 +8,7 @@ locals {
   name_id     = format("%05d", var.name_id)
   name        = "${var.projectName}${local.name_id}"
   environment = "development"
+  private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
 }
 
 module "resource_group" {
