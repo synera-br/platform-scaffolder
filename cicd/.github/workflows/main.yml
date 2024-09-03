@@ -3,7 +3,10 @@ run-name: Terraform deployment resources in Azure CI
 
 on:
   workflow_call:
-
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 env:
   ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
   ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
@@ -12,7 +15,13 @@ env:
   ACTION: apply
 
 jobs:
+  callScanTerraform:
+    name: Provisioning
+    uses: ./.github/workflows/terraform.yaml
+
   terraform:
+    needs: callScanTerraform
+    if: ${{ needs.callScanTerraform.result }} == 'success'
     name: 'Terraform'
     runs-on: ubuntu-latest
     outputs:

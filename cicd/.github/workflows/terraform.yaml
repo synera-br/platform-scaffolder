@@ -2,9 +2,7 @@
   name: scan-terraform
   on:
     workflow_dispatch:
-    push:
-      branches:
-        - main
+    workflow_call:
   
   jobs:
     scanTerraform:
@@ -20,15 +18,7 @@
             scan-type: 'config'
             scan-ref: './infra'
             hide-progress: true
-            format: 'sarif'
-            output: 'trivy-results.sarif'
+            format: 'table'
             exit-code: '1'
             ignore-unfixed: true
             severity: 'MEDIUM,HIGH,CRITICAL'
-  
-    call_provisioning:
-      name: Provisioning
-      uses: ./.github/workflows/main.yml
-      needs: scanTerraform
-      if: ${{ needs.scanTerraform.result }} == 'success'
-  
