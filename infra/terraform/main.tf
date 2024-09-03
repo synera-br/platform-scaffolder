@@ -56,3 +56,39 @@ module "entity_rsg" {
   environment = "production"
   system    = var.projectName
 }
+
+module "entity_idm" {
+  source   = "./modules/backstage"
+  kind      = "resource"
+  name      = module.identity.name
+  namespace = "default"
+  type      = "identity"
+  owner     = var.projectOwner
+  environment = "production"
+  system    = var.projectName
+  dependsOn = [module.resource_group.name]
+}
+
+module "entity_dns" {
+  source   = "./modules/backstage"
+  kind      = "resource"
+  name      = module.private_dns.name
+  namespace = "default"
+  type      = "dns"
+  owner     = var.projectOwner
+  environment = "production"
+  system    = var.projectName
+  dependsOn = [module.resource_group.name, module.identity.name]
+}
+
+module "entity_law" {
+  source   = "./modules/backstage"
+  kind      = "resource"
+  name      = module.log_analytics.name
+  namespace = "default"
+  type      = "log_analytics"
+  owner     = var.projectOwner
+  environment = "production"
+  system    = var.projectName
+  dependsOn = [module.resource_group.name, module.identity.name]
+}
