@@ -88,7 +88,7 @@ spec:
 
     - id: fetch-cicd
       name: Fetch CI/CD
-      action: fetch:plain:file
+      action: fetch:plain
       input:
         url: ../cicd
         targetPath: ./
