@@ -30,7 +30,7 @@ variable "location" {
 
 variable "private_domain" {
   type        = string
-  default     = "synera-br.local"
+  default     = ""
   description = "Name to create a private dns zone"
 }
 
