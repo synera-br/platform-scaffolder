@@ -8,7 +8,7 @@ variable "name" {
   }
 
   validation {
-    condition     = can(regex("^[a-z]{1,7}[0-9]{1,5}$", var.name))
+    condition     = can(regex("^[a-z]{1,8}[0-9]{1,4}$", var.name))
     error_message = "The resource group name should be starts with character"
   }
 }

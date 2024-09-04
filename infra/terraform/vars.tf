@@ -8,7 +8,7 @@ variable "name" {
 
 variable "name_id" {
   type        = number
-  default     = 00003
+  default     = 0003
   description = "ID to generate a different resources"
 }
 
@@ -90,3 +90,23 @@ variable "labels" {
   {%- endif  %}
   description = "Labels to registry in Backstage and Cloud resources"
 }
+
+{%- if values.labels is iterable %}
+is iterable
+default     =  {
+{% for item in values.labels %}
+ {{ item }}
+{% endfor %}
+}
+{%- else  %}  
+{%- endif  %}
+
+{%- if values.labels  %}
+is not iterable
+default     =  {
+{% for item in values.labels %}
+ {{ item }}
+{% endfor %}
+}
+{%- else  %}  
+{%- endif  %}
