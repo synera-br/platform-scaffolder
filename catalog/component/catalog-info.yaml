@@ -9,7 +9,7 @@ metadata:
   labels: 
     {% for key, value in values.labels %}
       ${{- key }}: ${{ value }}
-    {%- endfor -%}
+    {% endfor -%}
   {% endif  %}
 spec:
   type: service
