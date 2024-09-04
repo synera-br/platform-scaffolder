@@ -83,7 +83,7 @@ variable "labels" {
   default     =  {
     {% for key, value in values.labels %}
       ${{- key }} = "${{ value }}"
-    {% endfor %}
+    {%- endfor %}
   }
   {%- else  %}  
   default     =  {}
