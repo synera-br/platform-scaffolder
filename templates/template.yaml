@@ -78,6 +78,11 @@ spec:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
+          labels:
+            part-of: ${{ parameters. projectName}}
+            instance: ${{ parameters.projectInstance }}
+            owner: ${{ parameters.projectOwner }}
+            version: ${{ parameters.projectVersion }}
 
     # - name: Write Catalog information
     #   action: catalog:write
@@ -116,6 +121,11 @@ spec:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
+          labels:
+            part-of: ${{ parameters. projectName}}
+            instance: ${{ parameters.projectInstance }}
+            owner: ${{ parameters.projectOwner }}
+            version: ${{ parameters.projectVersion }}
           
     - id: get-secrets
       name: getting secrets
@@ -125,15 +135,6 @@ spec:
         vaultName: ${{ parameters.vaultName }}
         subscription: ${{ parameters.subscription }}
 
-    - id: debug-secrets
-      name: working in repository
-      action: debug:log      
-      each: ${{ steps['get-secrets'].output  }}
-      input:
-        message: |
-          ${{ each.key }}
-          ${{ each.value }}          
-        
     - id: publish
       name: Publish
       action: publish:github

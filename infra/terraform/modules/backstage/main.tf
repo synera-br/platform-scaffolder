@@ -14,6 +14,7 @@ locals {
       lifecycle = var.environment
       owner     = var.owner
       system    = var.system
+      dependsOn = var.dependsOn
     }
   }
 }

@@ -79,6 +79,14 @@ variable "tags" {
 
 variable "labels" {
   type        = map(string)
+    {%- if values.labels %}
+  default     =  {
+    {% for key, value in values.labels %}
+      {{ key }} = {{ value }}
+    {% endfor %}
+  }
+  {%- else  %}  
   default     =  {}
+  {%- endif  %}
   description = "Labels to registry in Backstage and Cloud resources"
 }
