@@ -92,7 +92,7 @@ variable "labels" {
 }
 
 
-{%- values.labels %}
+{%- (values.labels.length) %}
 {%- if values.labels is iterable %}
 is iterable
 default     =  {
