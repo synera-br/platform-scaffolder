@@ -8,7 +8,7 @@ metadata:
   {%- if values.labels %}
   labels: 
     {% for key, value in values.labels %}
-      ${{- key }}: ${{ value }}
+      ${{- key }}: ${{ value -}}
     {% endfor %}
   {%- endif  %}
 spec:
