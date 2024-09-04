@@ -119,3 +119,16 @@ A List of items
   - ${{ thing }}
   {%- endfor %}
 {%- endif %}
+
+{% if values.labels|is_string %}yes is string{% endif %}
+{% if values.labels|is_string %}
+  yes, is string
+  {%- else  %}  
+no, is not string
+{% endif %}
+  {% endif %}
+{% if values.labels is string %}
+   It is a string
+{%- else  %}  
+It is not a string
+{% endif %}
