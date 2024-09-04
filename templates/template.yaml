@@ -7,9 +7,11 @@ metadata:
 spec:
   owner: syner
   type: service
-
   parameters:
-    - title: User info
+    - title: User information
+      required:
+        - userName
+        - userEmail
       properties:
         userName:
           ttile: User name 
@@ -21,10 +23,12 @@ spec:
           type: string
           description: Email of user logged
           ui:field: UserFieldEmail
-    - title: Project info
+    - title: Project information
       required:
         - projectName
-        - repoUrl
+        - projectInstance
+        - projectVersion
+        - projectOwner
       properties:
         projectName:
           ttile: Project name
@@ -33,10 +37,27 @@ spec:
           default: platfor
           maxLength: 7
           minLength: 7
-        projectLabels:
-          ttile: Project labels
+        projectInstance:
+          ttile: Project instance
           type: string
-          description: Set labels for this project
+          description: Set the instance name
+        projectVersion:
+          title: Project version
+          type: string
+          description: Set the version
+          default: v0.1.0
+        projectOwner:
+          title: Project owner (team)
+          type: string
+          description: Owner group of this project
+          ui:field: OwnerPicker
+          ui:options:
+              catalogFilter:
+                - kind: Group
+    - title: Repository information
+      required:
+        - repoUrl
+      properties:
         repoUrl:
           title: Repository Location
           type: string
@@ -47,18 +68,6 @@ spec:
             allowedOwners:
               - synera-br
   steps:
-    - id: debug-username
-      name: Debug userName
-      action: debug:log
-      input:
-        message: ${{ parameters.userName }}
-
-    - id: debug-email
-      name: Debug userEmail
-      action: debug:log
-      input:
-        message: ${{ parameters.userEmail }}
-
     - id: fetch-catalog
       name: Fetch Catalog
       action: fetch:template
@@ -70,21 +79,21 @@ spec:
           userName: ${{ parameters.userName }}
           description: description
 
-    - name: Write Catalog information
-      action: catalog:write
-      input:
-        entity:
-          apiVersion: 'backstage.io/v1alpha1'
-          kind: Component
-          metadata:
-            name: ${{ parameters.projectName }}
-            annotations:
-              github.com/project-slug: ${{ parameters.repoUrl | projectSlug }}
-          spec:
-            type: service
-            lifecycle: production
-            owner: ${{ parameters.userName }}
-        filePath: 'catalog-info.yaml'
+    # - name: Write Catalog information
+    #   action: catalog:write
+    #   input:
+    #     entity:
+    #       apiVersion: 'backstage.io/v1alpha1'
+    #       kind: Component
+    #       metadata:
+    #         name: ${{ parameters.projectName }}
+    #         annotations:
+    #           github.com/project-slug: ${{ parameters.repoUrl | projectSlug }}
+    #       spec:
+    #         type: service
+    #         lifecycle: production
+    #         owner: ${{ parameters.userName }}
+    #     filePath: 'catalog-info.yaml'
 
     - id: fetch-cicd
       name: Fetch CI/CD
