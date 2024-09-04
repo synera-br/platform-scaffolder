@@ -54,6 +54,14 @@ spec:
           ui:options:
               catalogFilter:
                 - kind: Group
+        cloudProvider:
+          title: Choose the cloud prvoider
+          type: string
+          description: Set the cloud provider
+          default: azure
+          enum:
+          - azure
+          - aws
     - title: Repository information
       required:
         - repoUrl
@@ -63,6 +71,9 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
+            allowedRepos:
+              - platform7
+              - platform8
             allowedHosts:
               - github.com
             allowedOwners:
@@ -121,6 +132,7 @@ spec:
           projectName: ${{ parameters.projectName }}
           userName: ${{ parameters.userName }}
           description: description
+          provider: ${{ parameters.cloudProvider }}
           labels:
             part-of: ${{ parameters. projectName}}
             instance: ${{ parameters.projectInstance }}
