@@ -82,7 +82,7 @@ variable "labels" {
     {%- if values.labels %}
   default     =  {
     {% for key, value in values.labels %}
-      ${{ key }} = ${{ value }}
+      ${{- key }} = ${{- value }}
     {% endfor %}
   }
   {%- else  %}  
@@ -90,39 +90,3 @@ variable "labels" {
   {%- endif  %}
   description = "Labels to registry in Backstage and Cloud resources"
 }
-
-
-
-{%- if values.labels is iterable %}
-is iterable
-default     =  {
-{% for item in values.labels %}
- ${{ item }}
-{% endfor %}
-}
-{%- else  %}  
-{%- endif  %}
-
-{%- if values.labels  %}
-is not iterable
-default     =  {
-{% for item in values.labels %}
- {{ item }}
-{% endfor %}
-}
-{%- else  %}  
-{%- endif  %}
-
-{%- if(values.labels.length) %}
-A List of items
-  {%- for thing in values.labels %}
-  - ${{ thing }}
-  {%- endfor %}
-{%- endif %}
-
-
-{% if values.labels is string %}
-   It is a string
-{%- else  %}  
-It is not a string
-{% endif %}

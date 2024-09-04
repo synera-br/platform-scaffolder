@@ -7,8 +7,10 @@ metadata:
   {%- endif  %}
   {%- if values.labels %}
   labels: 
-    ${{values.labels }}
-  {%- endif  %}
+    {%- for key, value in values.labels %}
+      ${{- key }}: ${{ value }}
+    {% endfor %}
+  {%- endif  -%}
 spec:
   type: service
   lifecycle: production
