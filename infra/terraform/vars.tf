@@ -126,7 +126,7 @@ A List of items
   {%- else  %}  
 no, is not string
 {% endif %}
-  {% endif %}
+  
 {% if values.labels is string %}
    It is a string
 {%- else  %}  
