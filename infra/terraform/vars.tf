@@ -82,7 +82,7 @@ variable "labels" {
     {%- if values.labels %}
   default     =  {
     {% for key, value in values.labels %}
-      {{ key }} = {{ value }}
+      ${{ key }} = ${{ value }}
     {% endfor %}
   }
   {%- else  %}  
@@ -97,7 +97,7 @@ variable "labels" {
 is iterable
 default     =  {
 {% for item in values.labels %}
- {{ item }}
+ ${{ item }}
 {% endfor %}
 }
 {%- else  %}  
