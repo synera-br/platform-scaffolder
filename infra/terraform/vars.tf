@@ -91,6 +91,8 @@ variable "labels" {
   description = "Labels to registry in Backstage and Cloud resources"
 }
 
+
+{%- values.labels.length %}
 {%- if values.labels is iterable %}
 is iterable
 default     =  {
@@ -110,3 +112,10 @@ default     =  {
 }
 {%- else  %}  
 {%- endif  %}
+
+{%- if(values.labels.length) %}
+A List of items
+  {%- for thing in values.labels %}
+  - ${{ thing }}
+  {%- endfor %}
+{%- endif %}
