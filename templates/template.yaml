@@ -146,11 +146,14 @@ spec:
     - id: publish
       name: Publish
       action: publish:github
+      if: ${{ parameters.cloudProvider === 'azure' }}
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
+        repoVariables:
+          cloudProvider: ${{ parameters.cloudProvider }}
         secrets:
           ARM_CLIENT_ID: ${{ steps['get-secrets'].output['ARM_CLIENT_ID'] }}
           ARM_SUBSCRIPTION_ID: ${{ steps['get-secrets'].output['ARM_SUBSCRIPTION_ID'] }}
