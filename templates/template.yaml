@@ -135,6 +135,14 @@ spec:
       input:
         cloudProvider: ${{ parameters.cloudProvider }}
 
+    - id: get-debug
+      name: debug
+      action: debug:log
+      each: ${{ steps['get-secrets'].output }}
+      input:
+        message: |
+          ${{ each.key }}: ${{ each.value }}
+
     - id: publish
       name: Publish
       action: publish:github
