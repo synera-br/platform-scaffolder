@@ -24,10 +24,8 @@ variable "location" {
   }
 }
 
-
 ##############################
 ## Azure Private DNS #########
-
 variable "private_domain" {
   type        = string
   default     = ""
@@ -36,13 +34,11 @@ variable "private_domain" {
 
 ##############################
 ## Azure Kubernetes Service ##
-
 variable "dns_prefix" {
   type        = string
   default     = "internal"
   description = "DNS prefix to deploy with kubernetes"
 }
-
 
 ##############################
 ## Log analytics workspace ###
@@ -57,7 +53,6 @@ variable "law_sku" {
   default     = "PerGB2018"
   description = "Specifies the SKU of the Log Analytics Workspace"
 }
-
 
 variable "projectName" {
   type        = string

@@ -95,22 +95,6 @@ spec:
             owner: ${{ parameters.projectOwner }}
             version: ${{ parameters.projectVersion }}
 
-    # - name: Write Catalog information
-    #   action: catalog:write
-    #   input:
-    #     entity:
-    #       apiVersion: 'backstage.io/v1alpha1'
-    #       kind: Component
-    #       metadata:
-    #         name: ${{ parameters.projectName }}
-    #         annotations:
-    #           github.com/project-slug: ${{ parameters.repoUrl | projectSlug }}
-    #       spec:
-    #         type: service
-    #         lifecycle: production
-    #         owner: ${{ parameters.userName }}
-    #     filePath: 'catalog-info.yaml'
-
     - id: fetch-cicd
       name: Fetch CI/CD
       action: fetch:plain
@@ -141,7 +125,7 @@ spec:
           
     - id: get-secrets
       name: getting secrets
-      action: azure:keyvault
+      action: cloud:vault:get
       input:
         secretName: ${{ parameters.secretName }}
         vaultName: ${{ parameters.vaultName }}
