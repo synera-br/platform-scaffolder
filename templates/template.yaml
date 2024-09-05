@@ -124,11 +124,11 @@ spec:
             instance: ${{ parameters.projectInstance }}
             owner: ${{ parameters.projectOwner }}
             version: ${{ parameters.projectVersion }}
-    - id: get-azure-secrets
-      name: getting azure secrets
-      action: azure:keyvault
-      input:
-        cloudProvider: ${{ parameters.cloudProvider }}          
+    # - id: get-azure-secrets
+    #   name: getting azure secrets
+    #   action: azure:keyvault
+    #   input:
+    #     cloudProvider: ${{ parameters.cloudProvider }}          
     - id: get-secrets
       name: getting secrets
       action: cloud:vault:get
