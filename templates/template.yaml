@@ -127,9 +127,7 @@ spec:
       name: getting secrets
       action: cloud:vault:get
       input:
-        secretName: ${{ parameters.secretName }}
-        vaultName: ${{ parameters.vaultName }}
-        subscription: ${{ parameters.subscription }}
+        cloudProvider: ${{ parameters.cloudProvider }}
 
     - id: publish
       name: Publish
