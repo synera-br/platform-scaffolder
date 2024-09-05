@@ -18,6 +18,22 @@ jobs:
     name: Provisioning
     uses: ./.github/workflows/terraform.yml
 
+  cloud:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+
+    - name: provider is ${{ vars.cloudProvider }}
+      if: ${{ vars.cloudProvider  == 'azure' }}
+      run: echo ${{ vars.cloudProvider }}
+
+    - name: provider2 is ${{ vars.cloudProvider }}
+      if: ${{ vars.cloudProvider  == 'aws' }}
+      run: echo ${{ vars.cloudProvider }}
+
   terraform:
     needs: callScanTerraform
     if: ${{ needs.callScanTerraform.result }} == 'success'
