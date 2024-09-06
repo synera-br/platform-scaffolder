@@ -1,0 +1,129 @@
+name: provisioning
+run-name: Terraform deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+env:
+  ACTION: apply
+  PROVIDER: ${{ vars.CLOUDPROVIDER }}
+
+jobs:
+  callTerraformScan:
+    name: Provisioning
+    uses: ./.github/workflows/terraform-scan.yml
+
+  handlerProvider:
+    name: handlerProvider
+    runs-on: ubuntu-latest
+    outputs:
+      provider: ${{steps.cloudProvider.outputs.CHOOSE}}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: cloudProvider
+        run: |
+          echo 
+          OUTPUT=$(terraform output -raw entity_rsg)
+          echo "::set-output name=CHOOSE::$OUTPUT"
+
+  callTerraformAzure:
+    needs: callTerraformScan
+    name: Provisioning
+    uses: ./.github/workflows/terraform-azure.yml
+    if: vars.CLOUD_PROVIDER == 'azure'
+    secrets:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+
+  callTerraformAws:
+    name: Provisioning
+    uses: ./.github/workflows/terraform-aws.yml
+    needs: callTerraformScan
+    if: vars.CLOUD_PROVIDER  == 'aws'
+      
+  # azure:
+  #   needs: callScanTerraform
+  #   if: ${{ needs.callScanTerraform.result }} == 'success'
+  #   name: 'Terraform'
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     kube_config: ${{steps.aks_cluster_name.outputs.CONFIG}}
+  #     env: ${{steps.environment.outputs.ENV}}
+
+  #   defaults:
+  #     run:
+  #       shell: bash
+
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1  
+  #     with:
+  #       terraform_wrapper: false
+
+  #   - name: Terraform Init
+  #     run: terraform init
+  #     working-directory: ./infra/terraform
+  #     env:
+  #       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  #       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  #       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  #       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+
+  #   - name: Terraform Create a plan
+  #     run: terraform plan -out "tfplan"
+  #     working-directory: ./infra/terraform
+
+  #   - name: Terraform show a plan
+  #     run: terraform show "tfplan"
+  #     working-directory: ./infra/terraform
+
+  #   - name: Terraform ${{ env.ACTION }} a plan
+  #     run: terraform ${{ env.ACTION }} -parallelism=20 --auto-approve
+  #     working-directory: ./infra/terraform
+
+  #   - name: Terraform output
+  #     id: terraform-output
+  #     run: |
+  #       terraform output
+  #     working-directory: ./infra/terraform
+
+  #   - name: Terraform output project name
+  #     id: environment
+  #     if: env.ACTION == 'apply'
+  #     run: |
+  #       OUTPUT=$(terraform output -raw entity_rsg)
+  #       echo "::set-output name=ENV::$OUTPUT"
+  #     working-directory: ./infra/terraform
+
+  #   - name: Terraform graph
+  #     run: |
+  #       terraform graph
+  #     working-directory: ./infra/terraform
+
+  #   - name: RabbitMQ Message Sender
+  #     uses: bulathacl/rabbitmq-publish-message@v1.0.0
+  #     with:
+  #         MESSAGE: ${{ steps.environment.outputs.ENV }}
+  #         QUEUENAME: "main_queue"
+  #         HEADERS: "backstage/kind:ok"
+  #         RABBITMQ_HOST: ${{ secrets.RABBIT_HOST }}
+  #         RABBITMQ_USERNAME: ${{ secrets.RABBIT_USERNAME }}
+  #         RABBITMQ_VHOSTNAME: ${{ secrets.RABBIT_USERNAME }}
+  #         RABBITMQ_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
+  #         RABBIT_PORT: 5672
+  #         RABBIT_USE_SSL: true
+  #         DURABLE: false
+   
+  
+

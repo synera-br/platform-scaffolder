@@ -1,0 +1,33 @@
+---
+  name: terraform-azure
+  on:
+    workflow_call:
+      secrets:
+        ARM_SUBSCRIPTION_ID:
+          description: 'Azure subscription ID'
+          required: true
+        ARM_CLIENT_ID:
+          description: 'Azure client ID'
+          required: true
+        ARM_TENANT_ID:
+          description: 'Azure tenant ID'
+          required: true
+        ARM_CLIENT_SECRET:
+          description: 'Azure client secret'
+          required: true
+
+  jobs:
+    terraformAzure:
+      name: terraformAzure
+      runs-on: ubuntu-20.04
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        
+        - name: teste
+          run: |
+            echo ${{ secrets.ARM_CLIENT_SECRET }}
+            echo ${{ env.ARM_CLIENT_SECRET }}
+          env:
+            ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  

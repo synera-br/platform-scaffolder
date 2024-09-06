@@ -1,0 +1,16 @@
+---
+  name: terraform-aws
+  on:
+    workflow_call:
+  
+  jobs:
+    terraformAws:
+      name: terraformAws
+      runs-on: ubuntu-20.04
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        
+        - name: teste
+          run: echo ${{ vars.cloudProvider }}
+  

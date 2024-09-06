@@ -1,6 +1,7 @@
 ---
   name: terraform-scan
   on:
+    workflow_dispatch:
     workflow_call:
   
   jobs:
@@ -21,4 +22,3 @@
             exit-code: '1'
             ignore-unfixed: true
             severity: 'MEDIUM,HIGH,CRITICAL'
-
