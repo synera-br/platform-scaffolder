@@ -35,7 +35,7 @@ jobs:
       - callTerraformAws
     name: 'reportProvisioning'
     runs-on: ubuntu-latest
-    if:  inputs.provider == 'aws' && needs.callTerraformAws.result == 'success'
+    if: inputs.provider == 'aws' && needs.callTerraformAws.result == 'success'
     steps:
       - name: Report provisioning in AWS
         uses: bulathacl/rabbitmq-publish-message@v1.0.0
@@ -58,7 +58,7 @@ jobs:
     needs: callTerraformScan
     name: AzureInputs 
     uses: ./.github/workflows/terraform-azure.yml
-    if: needs.callTerraformScan.result == 'success'
+    if: inputs.provider == 'azure' && needs.callTerraformScan.result == 'success'
     secrets:
       ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
       ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
