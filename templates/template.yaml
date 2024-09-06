@@ -171,6 +171,9 @@ spec:
         branchOrTagName: main
         description: This is 
         repoUrl: ${{ parameters.repoUrl }}
+        workflowInputs:
+          provider: azure
+
 
   output:
     links:
