@@ -172,7 +172,7 @@ spec:
         description: This is 
         repoUrl: ${{ parameters.repoUrl }}
         workflowInputs:
-          provider: azure
+          provider: ${{ parameters.cloudProvider }}
 
 
   output:
