@@ -19,7 +19,7 @@ jobs:
     name: Scan
     uses: ./.github/workflows/terraform-scan.yml
 
-    # STARTS AWS
+  # STARTS AWS
   callTerraformAws:
     needs: callTerraformScan
     name: AwsInputs
