@@ -8,17 +8,36 @@ on:
       - main
 env:
   ACTION: apply
+  PROVIDER: ${{ vars.CLOUDPROVIDER }}
 
 jobs:
   callTerraformScan:
     name: Provisioning
     uses: ./.github/workflows/terraform-scan.yml
 
+  handlerProvider:
+    name: handlerProvider
+    runs-on: ubuntu-latest
+    outputs:
+      provider: ${{steps.cloudProvider.outputs.CHOOSE}}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: cloudProvider
+        run: |
+          echo 
+          OUTPUT=$(terraform output -raw entity_rsg)
+          echo "::set-output name=CHOOSE::$OUTPUT"
+
   callTerraformAzure:
+    needs: callTerraformScan
     name: Provisioning
     uses: ./.github/workflows/terraform-azure.yml
-    if: ${{ vars.cloudProvider }} == 'azure'
-    with:
+    if: vars.CLOUD_PROVIDER == 'azure'
+    secrets:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
       ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
@@ -27,7 +46,8 @@ jobs:
   callTerraformAws:
     name: Provisioning
     uses: ./.github/workflows/terraform-aws.yml
-    if: ${{ vars.cloudProvider }} == 'aws'
+    needs: callTerraformScan
+    if: vars.CLOUD_PROVIDER  == 'aws'
       
   # azure:
   #   needs: callScanTerraform

@@ -153,7 +153,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
         repoVariables:
-          cloudProvider: ${{ parameters.cloudProvider }}
+          CLOUD_PROVIDER: ${{ parameters.cloudProvider }}
         secrets:
           ARM_CLIENT_ID: ${{ steps['get-secrets'].output['ARM_CLIENT_ID'] }}
           ARM_SUBSCRIPTION_ID: ${{ steps['get-secrets'].output['ARM_SUBSCRIPTION_ID'] }}
