@@ -5,10 +5,18 @@ locals {
   owner       = { "owner" : var.projectOwner }
   tags        = var.tags
   labels      = merge({ "created_at" : "${local.created_at}", "owner" : "${var.projectOwner}", "managed_by" : "terraform" }, var.labels)
-  name_id     = format("%04d", var.name_id)
+  name_id     = format("%04d", random_integer.id.result)
   name        = "${var.projectName}${local.name_id}"
   environment = "development"
   private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
+}
+
+resource "random_integer" "id" {
+  min = 1
+  max = 9999
+  keepers = {
+    listener_arn = "${timestamp()}"
+  }
 }
 
 module "resource_group" {

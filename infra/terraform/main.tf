@@ -11,6 +11,7 @@ locals {
   private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
 }
 
+
 resource "random_integer" "id" {
   min = 1
   max = 9999
