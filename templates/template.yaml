@@ -4,6 +4,8 @@ metadata:
   name: create-platform-orchestration
   title: Create Platform Orchestration
   description: This template will create the platform orchestration structure
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   owner: syner
   type: service
