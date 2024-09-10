@@ -98,5 +98,6 @@ module "sync_resources" {
   owner     = var.projectOwner
   environment = "production"
   system    = var.projectName
+  cloudProvider var.cloudProvider
   dependsOn = [module.resource_group.name, module.identity.name]
 }

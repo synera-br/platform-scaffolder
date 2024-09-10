@@ -85,3 +85,9 @@ variable "labels" {
   {%- endif  %}
   description = "Labels to registry in Backstage and Cloud resources"
 }
+
+variable "cloudProvider" {
+  type        = string
+  default     = "${{ values.provider | replace(" ", "-") | lower}}"
+  description = "Name of cloud provider"
+}

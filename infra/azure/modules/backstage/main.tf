@@ -23,7 +23,7 @@ data "http" "send_data" {
   url = var.url
   method = "POST"
 
-  request_body = jsonencode({"provider": "${{ parameters.cloudProvider }}" })
+  request_body = jsonencode({"provider": "${var.cloudProvider}" })
 
   request_headers = {
     Accept = "application/json"

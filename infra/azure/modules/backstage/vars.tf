@@ -69,3 +69,7 @@ variable "url" {
   description = "Url to send cloud provider"
 }
 
+variable "cloudProvider" {
+  type        = string
+  description = "Name of cloud provider"
+}
