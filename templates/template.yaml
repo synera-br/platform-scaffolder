@@ -30,7 +30,6 @@ spec:
         - projectName
         - projectInstance
         - projectVersion
-        - projectOwner
       properties:
         projectName:
           ttile: Project name
@@ -49,15 +48,15 @@ spec:
           type: string
           description: Set the version
           default: v0.1.0
-        projectOwner:
-          title: Project owner (team)
-          type: string
-          description: Owner group of this project
-          default: cloud
-          ui:field: OwnerPicker
-          ui:options:
-              catalogFilter:
-                - kind: Group
+        # projectOwner:
+        #   title: Project owner (team)
+        #   type: string
+        #   description: Owner group of this project
+        #   default: cloud
+        #   ui:field: OwnerPicker
+        #   ui:options:
+        #       catalogFilter:
+        #         - kind: Group
         cloudProvider:
           title: Choose the cloud prvoider
           type: string
@@ -96,7 +95,7 @@ spec:
           labels:
             part-of: ${{ parameters. projectName}}
             instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.projectOwner }}
+            owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}
 
     - id: fetch-cicd
@@ -123,8 +122,9 @@ spec:
           provider: ${{ parameters.cloudProvider }}
           labels:
             part-of: ${{ parameters. projectName}}
+            system: ${{ parameters. projectName}}
             instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.projectOwner }}
+            owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}
         
     - id: get-secrets
