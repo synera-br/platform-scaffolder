@@ -33,8 +33,8 @@ output "environment" {
   description = "Environment"
 }
 
-output "entity_rsg" {
-  value = jsonencode(module.entity_rsg.entity_json)
+output "sync_resources" {
+  value = jsonencode(module.sync_resources.status_response)
   description = "Resource Group Backstage entity"
 }
 

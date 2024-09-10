@@ -5,16 +5,23 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.108.0"
     }
+        http = {
+      source = "hashicorp/http"
+      version = "3.4.5"
+    }
   }
 
   backend "azurerm" {
     resource_group_name  = "shared"
     storage_account_name = "terraformvars"
     container_name       = "terraform"
-    key                  = "platform.tfstate"
+    key                  = "{{ parameters.cloudProvider  | replace(" ", "-") | lower}}_${{ parameters.projectName  | replace(" ", "-") | lower}}.tfstate"
   }
 }
 
+provider "http" {
+  # Configuration options
+}
 provider "azurerm" {
   features {
     resource_group {
