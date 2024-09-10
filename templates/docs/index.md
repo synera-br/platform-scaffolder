@@ -14,6 +14,8 @@ Nesse espaço, vamos te oferece uam experiência única de automação de infrae
 
 Na imagem abaixo, você encontrará o nosso fluxo de trabalho e nesse momento você é o desenvolvedor acessando o Backstage.
 
+![platforma](./assets/imgs/plataforma-flow.png)
+
 Cada estrutura tem uma proposta de ficar 30 minutos ligada e depois é automaticamente destruída. E cada usuário pode provisionar 1 estrutura por dia.
 
 Nosso fluxo de trabalho inclui as seguintes ferramentas, no qual podem serem trocadas conforme a necessidade de cada cliente:
