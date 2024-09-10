@@ -6,5 +6,5 @@ Todos os recursos tem vincúlos, através de parâmetros e variáveis informados
 
 Como conseguimos criar os vinculos entre os recursos, você terá uma visão de toda uma arvoré de deendência desses objetos do Backstage.
 
-Você já pensou ter uma estrutura automatizda no seu ambiente?  Agora você tem essa oportunidade, venha ser nosso cliente!
+**Você já pensou ter uma estrutura automatizda no seu ambiente?  Agora você tem essa oportunidade, venha ser nosso cliente!**
 

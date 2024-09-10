@@ -10,4 +10,4 @@ Todas os parâmetros e variáveis, informados na execuão do template, serão vi
 
 Após finalizar o deploy o Kubernetes, é provisionado o ArgoCD de forma automática, trazendo toda a inteligência dessa ferramenta para o nosso ambiente.
 
-Se você chegou até aqui, pode ter certeza, a sua experiência em ser nosso cliente será incrível e teremos muito sucesso juntos.
+***Se você chegou até aqui, pode ter certeza, a sua experiência em ser nosso cliente será incrível e teremos muito sucesso juntos.***
