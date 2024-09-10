@@ -2,6 +2,8 @@
 
 Ao provisionar o ambiente, você terá acesso em algumas URLs. Essas URLs e credenciais você receberá por e-mail.  Então, após finalizar o ambiente, valide se recebeu o e-mail ou se não está na sua caixa de SPAM.
 
+Os endereços de DNS são criados conforme a criação de cada recurso, através da integração com a Cloudflare.
+
 As URLs que você terá acesso são:
 
 | Sistema | URL |

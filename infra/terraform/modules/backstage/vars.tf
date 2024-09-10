@@ -62,3 +62,10 @@ variable "labels" {
   default     = {}
   description = "Labels of backstage entity"
 }
+
+variable "url" {
+  type        = string
+  default     = "https://platform-catalog.synera.com.br/api/backstage"
+  description = "Url to send cloud provider"
+}
+

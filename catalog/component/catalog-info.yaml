@@ -15,5 +15,5 @@ spec:
   type: service
   lifecycle: production
   owner: ${{ values.userName | lower}}
-  system: ${{ values.labels.part-of | lower}}
+  system: ${{ values.labels['part-of'] | lower}}
 

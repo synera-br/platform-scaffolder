@@ -69,13 +69,13 @@
             terraform output
           working-directory: ./infra/terraform
 
-        - name: Terraform output project name
-          id: report
-          if: inputs.action == 'apply'
-          run: |
-            OUTPUT=$(terraform output -raw entity_rsg)
-            echo "::set-output name=REPORT::$OUTPUT"
-          working-directory: ./infra/terraform
+        # - name: Terraform output project name
+        #   id: report
+        #   if: inputs.action == 'apply'
+        #   run: |
+        #     OUTPUT=$(terraform output -raw entity_rsg)
+        #     echo "::set-output name=REPORT::$OUTPUT"
+        #   working-directory: ./infra/terraform
 
         - name: Terraform graph
           run: |
