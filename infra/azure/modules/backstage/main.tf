@@ -1,8 +1,11 @@
 
 data "http" "send_data" {
-  url             = var.url
-  method          = "POST"
-  request_body    = jsonencode({"provider": "${var.cloudProvider}" })
+  url    = var.url
+  method = "POST"
+  request_body = jsonencode({
+    "provider" : "${var.cloudProvider}",
+    "account" : "${var.filter}"
+  })
   request_headers = {
     Accept        = "application/json"
     Authorization = "synera-br"

@@ -9,3 +9,8 @@ variable "cloudProvider" {
   type        = string
   description = "Name of cloud provider"
 }
+
+variable "filter" {
+  type        = string
+  description = "Filter resources"
+}

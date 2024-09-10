@@ -24,7 +24,7 @@ variable "location" {
   description = "The Azure region to deploy resources"
 
   validation {
-    condition = contains(["East US", "West US", "Brazil South", "Brazil"], var.location)
+    condition     = contains(["East US", "West US", "Brazil South", "Brazil"], var.location)
     error_message = "The location available are: 'East US', 'West US', 'Brazil South', and 'Brazil'"
   }
 }

@@ -34,27 +34,27 @@ output "environment" {
 }
 
 output "sync_resources" {
-  value = jsonencode(module.sync_resources.status_response)
+  value       = jsonencode(module.sync_resources.status_response)
   description = "Resource Group Backstage entity"
 }
 
 output "resource_group" {
-  value = module.resource_group.raw
+  value       = module.resource_group.raw
   description = "Resource Group Backstage entity"
 }
 
 output "identity" {
-  value = module.identity.raw
+  value       = module.identity.raw
   description = "Resource Group Backstage entity"
 }
 
 output "private_dns" {
-  value = module.private_dns.raw
+  value       = module.private_dns.raw
   description = "Resource Group Backstage entity"
 }
 
 output "log_analytics" {
-  value = module.log_analytics.raw
+  value       = module.log_analytics.raw
   description = "Resource Group Backstage entity"
-  sensitive = true
+  sensitive   = true
 }
