@@ -15,7 +15,7 @@ terraform {
     resource_group_name  = "shared"
     storage_account_name = "terraformvars"
     container_name       = "terraform"
-    key                  = "{{ parameters.cloudProvider  | replace(" ", "-") | lower}}_${{ parameters.projectName  | replace(" ", "-") | lower}}.tfstate"
+    key                  = "{{ parameters.provider  | replace(" ", "-") | lower}}_${{ parameters.projectName  | replace(" ", "-") | lower}}.tfstate"
   }
 }
 
