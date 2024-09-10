@@ -5,7 +5,7 @@ Nessa etapa teremos um exemplo de organização de grupos e usuários, para que 
 ## Grupos
 
 Serão 3 grupos da seguinte forma:
-1. O nome do projeto que você definir no [template](https://platform-demo.synera.com.br/create/templates/default/create-platform-orchestration). E o tipo dele ficará como organization;
+1. O nome do projeto que você definir no [template](https://platform-demo.synera.com.br/create/templates/default/plataforma-orchestration). E o tipo dele ficará como organization;
 2. Abaixo da organização criada no passo 1, teremos um grupo chamado de platform, onde o tipo desse grupo será team (equipe em inglês);
 3. Aqui nessa etapa, iremos vincular o seu usuário ao grupo criado na etapa 2, ou seja, você agora é o responsável por toda a arquitetura criada.
 

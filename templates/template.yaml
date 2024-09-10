@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: create-plataforma-orchestration
-  title: Create Plataforma Orchestration
+  name: plataforma-orchestration
+  title: Plataforma Orchestration
   description: This template will create the platform orchestration structure
   annotations:
     backstage.io/techdocs-ref: dir:.

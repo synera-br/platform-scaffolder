@@ -8,7 +8,7 @@ Esse é um serviço que oferecemos, plataforma como serviço.
 
 Plataforma como serviço, é onde você gerência todas as suas padronizações de código, nomeclatura, tem a visualização do status do ambiente, documentações, documentações de API e status dos recrusos de cloud. Essas são algumas das opções básicas que a plataforma como serviço oferece.
 
-Nesse espaço, vamos te oferece uam experiência única de automação de infraestrutura como código e integração de alguns microserviços.  Para você desfrutar dessa experiência, acesse o template que te guiará nos próximos passos [template](https://platform-demo.synera.com.br/create/templates/default/create-platform-orchestration).
+Nesse espaço, vamos te oferece uam experiência única de automação de infraestrutura como código e integração de alguns microserviços.  Para você desfrutar dessa experiência, acesse o template que te guiará nos próximos passos [template](https://platform-demo.synera.com.br/create/templates/default/plataforma-orchestration).
 
 ## Fluxo de trabalho
 

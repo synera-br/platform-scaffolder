@@ -1,3 +1,18 @@
-# Accesses
+# Acessos do ambiente
 
-This is a basic example of documentation.
+Ao provisionar o ambiente, você terá acesso em algumas URLs. Essas URLs e credenciais você receberá por e-mail.  Então, após finalizar o ambiente, valide se recebeu o e-mail ou se não está na sua caixa de SPAM.
+
+As URLs que você terá acesso são:
+
+| Sistema | URL |
+|---|---|
+| ArgoCD  | gitops-NOME_DO_SEU_PROJETO.synera.com.br |
+| Argo Rollout | rollout-NOME_DO_SEU_PROJETO.synera.com.br |
+| App em Golang  | app-NOME_DO_SEU_PROJETO.synera.com.br |
+| Repositório  | github/synera-br/NOME_DO_SEU_PROJETO |
+
+Com esses acessos, você conseguirá ter uma visão geral de como foi provisionado o ambiente e além do mais, ver todas as dependências do Backstage.
+
+Para ver as dependências, é só acessar o menu HOME, e selecionar entre Component, Resource, API, Sytem e Grupos.
+
+Venha e tenha essa incrível experiência de ser nosso cliente.
