@@ -23,9 +23,8 @@ terraform {
   }
 }
 
-provider "http" {
-  # Configuration options
-}
+provider "http" {}
+
 provider "azurerm" {
   features {
     resource_group {
