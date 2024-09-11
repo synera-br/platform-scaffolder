@@ -1,8 +1,3 @@
-output "created" {
-  value       = local.created_at
-  description = "Created time"
-}
-
 output "managed" {
   value       = local.managed_by
   description = "Manage resources"
