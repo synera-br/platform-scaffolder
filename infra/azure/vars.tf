@@ -6,12 +6,6 @@ variable "name" {
   description = "Name of Azure resource"
 }
 
-variable "name_id" {
-  type        = number
-  default     = 0003
-  description = "ID to generate a different resources"
-}
-
 variable "location" {
   type        = string
   default     = "East US"
@@ -22,6 +16,12 @@ variable "location" {
 
     error_message = "The location available are: 'East US', 'West US', 'Brazil South', and 'Brazil'"
   }
+}
+
+variable "created_at" {
+  type        = string
+  default     = "${{ values.createdAt | replace(" ", "-") | lower}}"
+  description = "Data de criação do recurso"
 }
 
 ##############################

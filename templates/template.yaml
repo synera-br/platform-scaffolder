@@ -82,22 +82,6 @@ spec:
             allowedOwners:
               - synera-br
   steps:
-    - id: fetch-catalog
-      name: Fetch Catalog
-      action: fetch:template
-      input:
-        url: ../catalog/component
-        targetPath: ./catalog
-        values:
-          projectName: ${{ parameters.projectName }}
-          userName: ${{ parameters.userName }}
-          description: description
-          labels:
-            part-of: ${{ parameters. projectName}}
-            instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.userName }}
-            version: ${{ parameters.projectVersion }}
-
     - id: utils
       name: Get utils parameters
       action: synera:utils
@@ -105,17 +89,22 @@ spec:
         projectName: ${{ parameters. projectName}}
         codeHash: 4
         currentDate: true
-        sumDate: 30
 
-    - id: debug
-      name: Report utils
-      action: debug:log
+    - id: fetch-catalog
+      name: Fetch Catalog
+      action: fetch:template
       input:
-        message:
-          projectName ${{ steps['utils'].output.projectName}}
-          projectNameHash ${{ steps['utils'].output.projectNameHash}}
-          currentDate ${{ steps['utils'].output.currentDate}}
-          sumDate ${{ steps['utils'].output.sumDate.full}}
+        url: ../catalog/component
+        targetPath: ./catalog
+        values:
+          projectName: ${{ steps['utils'].output.projectNameHash}}
+          userName: ${{ parameters.userName }}
+          description: description
+          labels:
+            part-of: ${{ steps['utils'].output.projectNameHash}}
+            instance: ${{ parameters.projectInstance }}
+            owner: ${{ parameters.userName }}
+            version: ${{ parameters.projectVersion }}
 
     - id: fetch-cicd
       name: Fetch CI/CD
@@ -124,7 +113,7 @@ spec:
         url: ../cicd
         targetPath: ./
         values:
-          projectName: ${{ parameters.projectName }}
+          projectName: ${{ steps['utils'].output.projectNameHash}}
           userName: ${{ parameters.userName }}
           description: description
 
@@ -135,13 +124,14 @@ spec:
         url: ../infra/${{ parameters.cloudProvider }}
         targetPath: ./infra/terraform
         values:
-          projectName: ${{ parameters.projectName }}
+          projectName: ${{ steps['utils'].output.projectNameHash}}
           userName: ${{ parameters.userName }}
           description: description
           provider: ${{ parameters.cloudProvider }}
+          createdAt: ${{ steps['utils'].output.currentDate}}
           labels:
-            part-of: ${{ parameters. projectName}}
-            system: ${{ parameters. projectName}}
+            part-of: ${{ steps['utils'].output.projectNameHash}}
+            system: ${{ steps['utils'].output.projectNameHash}}
             instance: ${{ parameters.projectInstance }}
             owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}

@@ -1,12 +1,10 @@
 //
 locals {
-  created_at     = formatdate("YYYY-MM-DD", timestamp())
   managed_by     = { "managed_by" : "terraform" }
   owner          = { "owner" : var.projectOwner }
   tags           = var.tags
-  labels         = merge({ "created_at" : "${local.created_at}", "owner" : "${var.projectOwner}", "managed_by" : "terraform" }, var.labels)
-  name_id        = format("%04d", 218)
-  name           = "${var.projectName}${local.name_id}"
+  labels         = merge({ "created_at" : "${var.created_at}", "owner" : "${var.projectOwner}", "managed_by" : "terraform" }, var.labels)
+  name           = var.projectName
   environment    = "development"
   private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
 }
