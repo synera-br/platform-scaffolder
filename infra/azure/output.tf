@@ -3,11 +3,6 @@ output "managed" {
   description = "Manage resources"
 }
 
-output "tags" {
-  value       = local.tags
-  description = "Tags to filter resources"
-}
-
 output "labels" {
   value       = local.labels
   description = "Labels to filter resources"

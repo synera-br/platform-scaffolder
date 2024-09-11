@@ -8,7 +8,7 @@ on:
         description: 'Cloud provider'
         required: true
         type: string
-        default: none
+        default: azure
         
   push:
     branches:
@@ -31,59 +31,15 @@ jobs:
         AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
         AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
 
-  # callReportAws:
-  #   needs:
-  #     - callTerraformAws
-  #   name: 'reportProvisioning'
-  #   runs-on: ubuntu-latest
-  #   if: inputs.provider == 'aws' && needs.callTerraformAws.result == 'success'
-  #   steps:
-  #     - name: Report provisioning in AWS
-  #       uses: bulathacl/rabbitmq-publish-message@v1.0.0
-  #       if:  needs.callTerraformAws.result == 'success'
-  #       with:
-  #           MESSAGE: ${{ needs.callTerraformAws.outputs.report }}
-  #           QUEUENAME: "main_queue"
-  #           HEADERS: "backstage/kind:ok"
-  #           RABBITMQ_HOST: ${{ secrets.RABBIT_HOST }}
-  #           RABBITMQ_USERNAME: ${{ secrets.RABBIT_USERNAME }}
-  #           RABBITMQ_VHOSTNAME: ${{ secrets.RABBIT_USERNAME }}
-  #           RABBITMQ_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
-  #           RABBIT_PORT: 5672
-  #           RABBIT_USE_SSL: true
-  #           DURABLE: false
-  # ENDS AWS
 
   # STARTS AZURE
   callTerraformAzure:
     needs: callTerraformScan
     name: AzureInputs 
     uses: ./.github/workflows/terraform-azure.yml
-    if: inputs.provider == 'azure' && needs.callTerraformScan.result == 'success'
+    if: needs.callTerraformScan.result == 'success'
     secrets:
       ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
       ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
       ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
       ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
-
-  # callReportAzure:
-  #   needs:
-  #     - callTerraformAzure
-  #   name: 'reportProvisioning'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Report provisioning in Azure
-  #     uses: bulathacl/rabbitmq-publish-message@v1.0.0
-  #     if:  needs.callTerraformAzure.result == 'success'
-  #     with:
-  #         MESSAGE: ${{ needs.callTerraformAzure.outputs.report }}
-  #         QUEUENAME: "main_queue"
-  #         HEADERS: "backstage/kind:ok"
-  #         RABBITMQ_HOST: ${{ secrets.RABBIT_HOST }}
-  #         RABBITMQ_USERNAME: ${{ secrets.RABBIT_USERNAME }}
-  #         RABBITMQ_VHOSTNAME: ${{ secrets.RABBIT_USERNAME }}
-  #         RABBITMQ_PASSWORD: ${{ secrets.RABBIT_PASSWORD }}
-  #         RABBIT_PORT: 5672
-  #         RABBIT_USE_SSL: true
-  #         DURABLE: false
-  # ENDS AZURE

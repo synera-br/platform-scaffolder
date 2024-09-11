@@ -167,3 +167,24 @@ variable "network_profile" {
   default     = {}
   description = "Network profile kubernetes"
 }
+
+variable "enabled_argocd" {
+  type = object({
+    name             = optional(string)
+    repository       = optional(string)
+    chart            = optional(string)
+    version          = optional(string)
+    namespace        = optional(string)
+    installCRDs      = optional(bool)
+    enabled          = bool
+    create_namespace = optional(bool)
+
+  })
+  default = {
+    name             = "argocd"
+    enabled          = true
+    chart            = "argo-cd"
+    create_namespace = true
+  }
+  description = "ArgoCD"
+}

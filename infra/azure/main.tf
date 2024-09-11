@@ -90,3 +90,15 @@ module "sync_resources" {
   }
   depends_on    = [module.resource_group, module.identity]
 }
+
+module "argocd" {
+  source     = "./modules/argoproj/argocd"
+  count      = var.enabled_argocd.enabled == true ? 1 : 0
+  name       = var.enabled_argocd.name
+  repository = var.enabled_argocd.repository
+  chart      = var.enabled_argocd.chart
+  namespace        = var.enabled_argocd.namespace
+  installCRDs      = var.enabled_argocd.installCRDs
+  create_namespace = var.enabled_argocd.create_namespace
+  labels           = local.labels
+}
