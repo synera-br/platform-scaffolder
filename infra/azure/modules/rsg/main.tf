@@ -11,6 +11,7 @@ resource "azurerm_resource_group" "rsg" {
   tags     = var.tags
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       tags["created_at"]
     ]

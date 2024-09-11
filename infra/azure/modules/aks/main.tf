@@ -12,7 +12,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = var.resource_group
   dns_prefix          = var.dns_prefix
 
-  private_cluster_enabled = false
+  private_cluster_enabled = true
+  role_based_access_control_enabled = true
 
   key_vault_secrets_provider {
     secret_rotation_enabled = true
@@ -58,6 +59,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   tags = var.tags
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       tags["created_at"]
     ]

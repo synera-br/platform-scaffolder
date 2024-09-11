@@ -13,6 +13,7 @@ resource "azurerm_private_dns_zone" "private" {
   tags = var.tags
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       tags["created_at"]
     ]

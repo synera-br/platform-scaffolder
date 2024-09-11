@@ -12,8 +12,12 @@ resource "azurerm_log_analytics_workspace" "law" {
   resource_group_name = var.resource_group
   sku                 = var.sku
   retention_in_days   = var.retention_in_days
-  # identity = {
-  #   type = var.identity.type
-  #   identity_ids = var.identity.identity_ids
-  # }
+  tags                = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [
+      tags["created_at"]
+    ]
+  }
 }
