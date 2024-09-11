@@ -87,7 +87,9 @@ module "log_analytics" {
 
 module "sync_resources" {
   source        = "./modules/backstage"
-  cloudProvider = var.cloudProvider
-  filter        = local.name
+  filter =  {
+    provider = var.cloudProvider
+    query = ""
+  }
   depends_on    = [module.resource_group, module.identity]
 }
