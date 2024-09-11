@@ -98,6 +98,25 @@ spec:
             owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}
 
+    - id: utils
+      name: Get utils parameters
+      action: synera:utils
+      input:
+        projectName: ${{ parameters. projectName}}
+        codeHash: 4
+        currentDate: true
+        sumDate: 30
+
+    - id: debug
+      name: Report utils
+      action: debug:log
+      input:
+        message:
+          projectName ${{ steps['utils'].output.projectName}}
+          projectNameHash ${{ steps['utils'].output.projectNameHash}}
+          currentDate ${{ steps['utils'].output.currentDate}}
+          sumDate ${{ steps['utils'].output.sumDate}}
+
     - id: fetch-cicd
       name: Fetch CI/CD
       action: fetch:plain
