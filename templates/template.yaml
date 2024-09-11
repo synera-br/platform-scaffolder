@@ -97,11 +97,11 @@ spec:
         url: ../catalog/component
         targetPath: ./catalog
         values:
-          projectName: ${{ steps['utils'].output.projectNameHash}}
+          projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
           description: description
           labels:
-            part-of: ${{ steps['utils'].output.projectNameHash}}
+            part-of: ${{ steps['utils'].output.projectName}}
             instance: ${{ parameters.projectInstance }}
             owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}
@@ -113,7 +113,7 @@ spec:
         url: ../cicd
         targetPath: ./
         values:
-          projectName: ${{ steps['utils'].output.projectNameHash}}
+          projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
           description: description
 
@@ -124,14 +124,14 @@ spec:
         url: ../infra/${{ parameters.cloudProvider }}
         targetPath: ./infra/terraform
         values:
-          projectName: ${{ steps['utils'].output.projectNameHash}}
+          projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
           description: description
           provider: ${{ parameters.cloudProvider }}
           createdAt: ${{ steps['utils'].output.currentDate}}
           labels:
-            part-of: ${{ steps['utils'].output.projectNameHash}}
-            system: ${{ steps['utils'].output.projectNameHash}}
+            part-of: ${{ steps['utils'].output.projectName}}
+            system: ${{ steps['utils'].output.projectName}}
             instance: ${{ parameters.projectInstance }}
             owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}

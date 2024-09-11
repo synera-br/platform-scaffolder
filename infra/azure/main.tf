@@ -2,7 +2,6 @@
 locals {
   managed_by     = { "managed_by" : "terraform" }
   owner          = { "owner" : var.projectOwner }
-  tags           = var.tags
   labels         = merge({ "created_at" : "${var.created_at}", "owner" : "${var.projectOwner}", "managed_by" : "terraform" }, var.labels)
   name           = var.projectName
   environment    = "development"

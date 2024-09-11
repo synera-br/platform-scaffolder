@@ -66,12 +66,6 @@ variable "projectOwner" {
   description = "Owner of project"
 }
 
-variable "tags" {
-  type        = list(string)
-  default     = ["platform"]
-  description = "Tags to registry in Backstage and Cloud resources"
-}
-
 variable "labels" {
   type        = map(string)
     {%- if values.labels %}
