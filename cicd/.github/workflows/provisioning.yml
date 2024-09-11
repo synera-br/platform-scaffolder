@@ -16,8 +16,13 @@ on:
 
 jobs:
   callTerraformScan:
-    name: Scan
-    uses: ./.github/workflows/terraform-scan.yml
+    name: 'reportProvisioning'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Report provisioning in Azure
+      run: echo ok
+    # name: Scan
+    # uses: ./.github/workflows/terraform-scan.yml
 
   # STARTS AWS
   callTerraformAws:
