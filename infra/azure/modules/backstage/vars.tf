@@ -12,6 +12,6 @@ variable "filter" {
   })
   default = {
     provider = "none"
-    query = ""
+    account = ""
   }
 }

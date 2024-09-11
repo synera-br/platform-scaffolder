@@ -89,7 +89,7 @@ module "sync_resources" {
   source        = "./modules/backstage"
   filter =  {
     provider = var.cloudProvider
-    query = ""
+    account = ""
   }
   depends_on    = [module.resource_group, module.identity]
 }

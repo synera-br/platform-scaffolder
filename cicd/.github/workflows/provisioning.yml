@@ -28,6 +28,7 @@ jobs:
   callTerraformAws:
     needs: callTerraformScan
     name: AwsInputs
+    # if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
     if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
     uses: ./.github/workflows/terraform-aws.yml
     secrets:
