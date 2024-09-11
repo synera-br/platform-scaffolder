@@ -115,7 +115,7 @@ spec:
           projectName ${{ steps['utils'].output.projectName}}
           projectNameHash ${{ steps['utils'].output.projectNameHash}}
           currentDate ${{ steps['utils'].output.currentDate}}
-          sumDate ${{ steps['utils'].output.sumDate}}
+          sumDate ${{ steps['utils'].output.sumDate['full']}}
 
     - id: fetch-cicd
       name: Fetch CI/CD
