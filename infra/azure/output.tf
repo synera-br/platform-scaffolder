@@ -33,11 +33,6 @@ output "environment" {
   description = "Environment"
 }
 
-output "sync_resources" {
-  value       = jsonencode(module.sync_resources.status_response)
-  description = "Resource Group Backstage entity"
-}
-
 output "resource_group" {
   value       = module.resource_group.raw
   description = "Resource Group Backstage entity"
@@ -57,4 +52,9 @@ output "log_analytics" {
   value       = module.log_analytics.raw
   description = "Resource Group Backstage entity"
   sensitive   = true
+}
+
+output "sync_resources" {
+  value       = jsonencode(module.sync_resources.status_response)
+  description = "Resource Group Backstage entity"
 }
