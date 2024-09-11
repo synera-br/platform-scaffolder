@@ -101,4 +101,7 @@ module "argocd" {
   installCRDs      = var.enabled_argocd.installCRDs
   create_namespace = var.enabled_argocd.create_namespace
   labels           = local.labels
+
+  depends_on    = [module.aks]
+
 }
