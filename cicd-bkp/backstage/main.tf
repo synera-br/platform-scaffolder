@@ -1,15 +1,15 @@
 
 
 data "http" "send_data" {
-  url = "https://platform-catalog.synera.com.br/api/backstage"
+  url    = "https://platform-catalog.synera.com.br/api/backstage"
   method = "POST"
 
-  request_body = jsonencode({"provider": "azure"})
+  request_body = jsonencode({ "provider" : "azure" })
 
   request_headers = {
-    Accept = "application/json"
+    Accept        = "application/json"
     Authorization = "synera-br"
-    
+
   }
 }
 

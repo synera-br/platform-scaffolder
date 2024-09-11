@@ -5,18 +5,10 @@ locals {
   owner          = { "owner" : var.projectOwner }
   tags           = var.tags
   labels         = merge({ "created_at" : "${local.created_at}", "owner" : "${var.projectOwner}", "managed_by" : "terraform" }, var.labels)
-  name_id        = format("%04d", random_integer.id.result)
+  name_id        = format("%04d", 25)
   name           = "${var.projectName}${local.name_id}"
   environment    = "development"
   private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
-}
-
-resource "random_integer" "id" {
-  min = 1
-  max = 9999
-  keepers = {
-    listener_arn = "${timestamp()}"
-  }
 }
 
 module "resource_group" {
@@ -54,44 +46,44 @@ module "log_analytics" {
   retention_in_days = var.retention_in_days
 }
 
-module "aks" {
-  source = "./modules/aks"
-  count  = 1
-  name   = "${var.name}${format("%05d", local.name_id + count.index)}"
-  tags   = local.tags
+# module "aks" {
+#   source = "./modules/aks"
+#   count  = 1
+#   name   = "${local.name}"
+#   tags   = local.labels
 
-  identity = {
-    type         = "UserAssigned"
-    identity_ids = [module.identity.id]
-  }
+#   identity = {
+#     type         = "UserAssigned"
+#     identity_ids = [module.identity.id]
+#   }
 
-  resource_group = module.resource_group.name
+#   resource_group = module.resource_group.name
 
-  default_node_pool = {
-    name                   = var.default_node_pool.name
-    node_count             = var.default_node_pool.node_count
-    enable_host_encryption = var.default_node_pool.enable_host_encryption
-    os_disk_size_gb        = var.default_node_pool.os_disk_size_gb
-    os_disk_type           = var.default_node_pool.os_disk_type
-    os_sku                 = var.default_node_pool.os_sku
-    pod_subnet_id          = var.default_node_pool.pod_subnet_id
-    ultra_ssd_enabled      = var.default_node_pool.ultra_ssd_enabled
-    vm_size                = var.default_node_pool.vm_size
-    zones                  = var.default_node_pool.zones
-  }
+#   default_node_pool = {
+#     name                   = var.default_node_pool.name
+#     node_count             = var.default_node_pool.node_count
+#     enable_host_encryption = var.default_node_pool.enable_host_encryption
+#     os_disk_size_gb        = var.default_node_pool.os_disk_size_gb
+#     os_disk_type           = var.default_node_pool.os_disk_type
+#     os_sku                 = var.default_node_pool.os_sku
+#     pod_subnet_id          = var.default_node_pool.pod_subnet_id
+#     ultra_ssd_enabled      = var.default_node_pool.ultra_ssd_enabled
+#     vm_size                = var.default_node_pool.vm_size
+#     zones                  = var.default_node_pool.zones
+#   }
 
-  node_pool = var.node_pool
+#   node_pool = var.node_pool
 
-  oms_agent = {
-    log_analytics_workspace_id = module.log_analytics.id
-  }
+#   oms_agent = {
+#     log_analytics_workspace_id = module.log_analytics.id
+#   }
 
-  scale_down_mode     = var.scale_down_mode
-  dns_prefix          = var.dns_prefix
-  ultra_ssd_enabled   = var.ultra_ssd_enabled
-  enable_auto_scaling = var.enable_auto_scaling
-  network_profile     = var.network_profile
-}
+#   scale_down_mode     = var.scale_down_mode
+#   dns_prefix          = var.dns_prefix
+#   ultra_ssd_enabled   = var.ultra_ssd_enabled
+#   enable_auto_scaling = var.enable_auto_scaling
+#   network_profile     = var.network_profile
+# }
 
 module "sync_resources" {
   source        = "./modules/backstage"

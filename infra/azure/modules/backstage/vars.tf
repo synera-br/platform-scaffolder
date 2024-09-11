@@ -5,12 +5,13 @@ variable "url" {
   description = "Url to send cloud provider"
 }
 
-variable "cloudProvider" {
-  type        = string
-  description = "Name of cloud provider"
-}
-
 variable "filter" {
-  type        = string
-  description = "Filter resources"
+  type = object({
+    provider = string
+    query = string
+  })
+  default = {
+    provider = "none"
+    query = ""
+  }
 }
