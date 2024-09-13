@@ -83,17 +83,19 @@
           run: kubectl apply -f ./deployment/gitops/argocd/project.yaml --namespace argoproj
 
         - name: Apply Kong ingress controller
-          run: kubectl apply -R -f ./deployment/gitops/kong --namespace argoproj
+          run: kubectl apply -f ./deployment/gitops/kong/application.yaml --namespace argoproj
 
         - name: Apply External dns
-          run: kubectl apply -R -f ./deployment/gitops/exdns --namespace argoproj
+          run: kubectl apply -f ./deployment/gitops/exdns/application.yaml --namespace argoproj
 
         - name: Apply Hashicorp vault
-          run: kubectl apply -R -f ./deployment/gitops/vault --namespace argoproj
+          run: kubectl apply -f ./deployment/gitops/vault/application.yaml --namespace argoproj
 
         - name: Apply External secrets
-          run: kubectl apply -R -f ./deployment/gitops/exsecrets --namespace argoproj
+          run: kubectl apply -f ./deployment/gitops/exsecrets/application.yaml --namespace argoproj
 
+        - name: Apply Secrets integrations secrets
+          run: kubectl apply -R -f ./deployment/gitops/exsecrets/integrations
 
         - name: Remove kubeconfig
           if: always()
