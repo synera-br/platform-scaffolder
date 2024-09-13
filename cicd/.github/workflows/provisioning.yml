@@ -27,9 +27,9 @@ jobs:
     if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
     uses: ./.github/workflows/terraform-aws.yml
     secrets:
-        AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
-        AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-        AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
+      AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+      AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
 
 
   # CLOUD PROVIDER
@@ -44,7 +44,7 @@ jobs:
       ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
       ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
 
-  callKubernetes2:
+  callKubernetes:
     needs: callTerraformCloudProvider
     name: applyGitOps 
     uses: ./.github/workflows/kubernetes.yaml
@@ -53,3 +53,13 @@ jobs:
       CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
     with:
       kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
+
+  callVault:
+    needs: 
+      - callTerraformCloudProvider
+    name: vault 
+    uses: ./.github/workflows/vault.yaml
+    if: needs.callKubernetes.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
+    with:
+      kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
+    

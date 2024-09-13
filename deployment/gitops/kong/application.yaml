@@ -34,7 +34,7 @@ spec:
         extraLabels:  {}
         {%- endif  %}
   sources: []
-  project: shared
+  project: ${{ values.projectName | replace(" ", "-") | lower}}
   syncPolicy:
     automated:
       prune: true 

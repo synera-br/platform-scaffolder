@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: shared
+  name: ${{ values.projectName | replace(" ", "-") | lower}}
   {%- if values.labels %}
   labels:
     {% for key, value in values.labels %}
@@ -15,7 +15,7 @@ spec:
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
-  description: Shared deployments with the cluster
+  description: Deployments with the cluster
   destinations:
   - name: in-cluster
     namespace: '*'

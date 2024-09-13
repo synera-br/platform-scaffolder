@@ -18,7 +18,7 @@
           description: 'Action to terraform'
           required: false
           type: string
-          default: apply
+          default: destroy
       secrets:
         ARM_SUBSCRIPTION_ID:
           description: 'Azure subscription ID'
@@ -72,27 +72,9 @@
           run: terraform ${{ inputs.action }} -parallelism=20 --auto-approve
           working-directory: ./infra/terraform
 
-        - name: Terraform output
-          id: terraform-output
-          run: |
-            terraform output
-          working-directory: ./infra/terraform
-
         - name: Terraform graph
           run: |
             terraform graph
-          working-directory: ./infra/terraform
-
-        - name: Terraform output
-          id: terraform-output2
-          run: |
-            terraform output -raw kubeconfig
-          working-directory: ./infra/terraform
-
-        - name: Terraform output raw
-          id: terraform-output-raw
-          run: |
-            terraform output -raw kubeconfig
           working-directory: ./infra/terraform
 
         - name: Terraform output kube_config

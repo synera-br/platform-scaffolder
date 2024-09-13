@@ -1,0 +1,292 @@
+---
+  name: enabled-vault
+  on:
+    workflow_call:
+      inputs:
+        kubeconfig:
+          description: 'Kubeconfig in base64'
+          required: true
+          type: string
+
+  jobs:
+    enableVault:
+      name: Link external secret with Vault
+      runs-on: 'ubuntu-latest'
+      permissions: 
+        contents: read
+      outputs:
+        vault_root_token: ${{ steps.unseal.outputs.root_token }}
+        vault_status: ${{ steps.unseal.outputs.status }}
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Kubeconfig
+          run: |
+            mkdir -p ~/.kube
+            echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
+        
+        - name: Apply Hashicorp vault
+          run: kubectl apply -f ./deployment/gitops/vault/application.yaml --namespace argoproj
+
+        - name: wait vault is running
+          run: |
+            count=5
+            increment=5
+            pesos=(5 6 7 8 9)
+            ponderado=0
+    
+            while true;do
+              OK=$(kubectl -n controller-vault get pods hashicorp-vault-0 --ignore-not-found=true|wc -l|sed 's/ //g')
+              echo "ok é: $OK"
+    
+              if [[ $OK -gt 0 ]]; then
+                result=$((count + increment + ponderado))
+                echo "ponderado is: $result"
+                sleep $result
+                break
+              fi
+    
+              ponderado=$((ponderado + count * pesos[count % ${#pesos[@]}]))
+              echo "ponderado is: $ponderado"
+    
+              count=$((count + increment))
+              sleep $ponderado
+            done
+
+        - name: wait secret store is running
+          run: |
+            count=5
+            increment=5
+            pesos=(5 6 7 8 9)
+            ponderado=0
+    
+            while true;do
+              OK=$(kubectl api-resources |grep -w SecretStore |wc -l|sed 's/ //g')
+              echo "ok é: $OK"
+    
+              if [[ $OK -gt 0 ]]; then
+                result=$((count + increment + ponderado))
+                echo "ponderado is: $result"
+                sleep $result
+                break
+              fi
+    
+              ponderado=$((ponderado + count * pesos[count % ${#pesos[@]}]))
+              echo "ponderado is: $ponderado"
+    
+              count=$((count + increment))
+              sleep $ponderado
+            done
+    
+        - name: status vault
+          id: vstatus
+          run: |
+            STATUS=$(kubectl -n controller-vault exec hashicorp-vault-0 -- vault status -format=json|jq .sealed)
+            echo $STATUS
+            echo "status=$(echo $STATUS)" >> $GITHUB_OUTPUT
+
+        - name: unseal vault
+          if: ${{ steps.vstatus.outputs.status }} == 'true'
+          id: unseal
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator init > ~/.kube/vault
+            cat ~/.kube/vault
+            KEY1=$(cat ~/.kube/vault |sed -n 1p | awk -F ': ' '{ print $2 }')
+            echo $KEY1
+            KEY2=$(cat ~/.kube/vault |sed -n 2p | awk -F ': ' '{ print $2 }')
+            echo $KEY2
+            KEY3=$(cat ~/.kube/vault |sed -n 3p | awk -F ': ' '{ print $2 }')
+            echo $KEY3
+            KEY4=$(cat ~/.kube/vault |sed -n 4p | awk -F ': ' '{ print $2 }')
+            echo $KEY4
+            KEY5=$(cat ~/.kube/vault |sed -n 5p | awk -F ': ' '{ print $2 }')
+            echo $KEY5
+            ROOT=$(cat ~/.kube/vault |grep '^Initial'| awk -F ': ' '{ print $2 }')
+            echo $ROOT
+            echo "root_token=$(echo $ROOT)" >> $GITHUB_OUTPUT
+    
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator unseal $KEY1
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator unseal $KEY2
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator unseal $KEY3
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator unseal $KEY4
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault operator unseal $KEY5
+    
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault login token=$ROOT
+
+        - name: vault copy policies
+          run: |
+              kubectl -n controller-vault cp ./deployment/gitops/vault/policies/user.hcl hashicorp-vault-0:/tmp/user.hcl
+              kubectl -n controller-vault cp ./deployment/gitops/vault/policies/k8s.hcl hashicorp-vault-0:/tmp/k8s.hcl
+              kubectl -n controller-vault cp ./deployment/gitops/vault/policies/external-secret.hcl hashicorp-vault-0:/tmp/external-secret.hcl
+      
+        - name: wait vault service account
+          run: |
+            count=5
+            increment=5
+            pesos=(5 6 7 8 9)
+            ponderado=0
+    
+            while true;do
+              OK=$(kubectl -n controller-vault get sa  hashicorp-vault --ignore-not-found=true|wc -l|sed 's/ //g')
+              echo "ok é: $OK"
+    
+              if [[ $OK -gt 0 ]]; then
+                result=$((count + increment + ponderado))
+                echo "ponderado is: $result"
+                sleep $result
+                break
+              fi
+    
+              ponderado=$((ponderado + count * pesos[count % ${#pesos[@]}]))
+              echo "ponderado is: $ponderado"
+    
+              count=$((count + increment))
+              sleep $ponderado
+            done
+    
+        - name: Remove kubeconfig
+          if: always()
+          run: |
+              rm -rf ~/.kube
+
+    configureVault:
+      name: Configure vault
+      runs-on: 'ubuntu-latest'
+      needs: enableVault
+      if: needs.enableVault.result == 'success'
+      permissions: 
+        contents: read
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Kubeconfig
+          run: |
+            mkdir -p ~/.kube
+            echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
+
+        - name: vault login
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault login token=${{ needs.enableVault.outputs.vault_root_token }}
+      
+        - name: vault enable kv in platform path
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault secrets enable -version=2 -path=platform kv
+    
+        - name: vault enable kv
+          run: |
+            kubectl exec hashicorp-vault-0  -n controller-vault -- vault secrets enable -version=2 kv
+            
+        - name: vault enable kubernetes
+          run: |
+              kubectl -n controller-vault exec hashicorp-vault-0 -- vault auth enable kubernetes
+
+        - name: vault create user policy
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 --  vault policy write platform-user /tmp/user.hcl
+    
+        - name: vault create k8s policy
+          run: |
+              kubectl -n controller-vault exec hashicorp-vault-0 --  vault policy write platform-k8s /tmp/k8s.hcl
+    
+        - name: vault create token for user
+          run: |
+              kubectl -n controller-vault exec -ti hashicorp-vault-0 -- vault token create -policy=platform-user -display-name=platform-user
+                  
+        - name: vault create token for k8s
+          run: |
+              kubectl -n controller-vault exec -ti hashicorp-vault-0 -- vault token create -policy=platform-k8s -display-name=platform-k8s                  
+        
+        - name: vault status
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault status
+    
+        - name: list policy 
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault policy list
+    
+        - name: vault put secret kv
+          run: |
+            kubectl -n controller-vault exec hashicorp-vault-0 -- vault kv put platform/gitops user=teste
+    
+        - name: Remove kubeconfig
+          if: always()
+          run: |
+              rm -rf ~/.kube
+    
+    # configureExternalSecrets:
+    #   name: Configure external secrets
+    #   runs-on: 'ubuntu-latest'
+    #   needs: enableVault
+    #   if: needs.enableVault.result == 'success'
+    #   permissions: 
+    #     contents: read
+
+    #   steps:
+    #     - name: Checkout
+    #       uses: actions/checkout@v4
+
+    #     - name: Kubeconfig
+    #       run: |
+    #         mkdir -p ~/.kube
+    #         echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
+
+    #     - name: vault login
+    #       run: |
+    #           kubectl apply -n controller-vault -f ./deployment/gitops/exsecrets/vault-secret.yaml
+
+    #     - name: vault login
+    #       run: |
+    #         kubectl -n controller-vault exec hashicorp-vault-0 -- vault login token=${{ needs.enableVault.outputs.vault_root_token }}
+      
+    #     - name: vault create external secret policy
+    #       run: |
+    #         kubectl -n controller-vault exec hashicorp-vault-0 --  vault policy write platform-external-secret /tmp/external-secret.hcl
+
+    #     - name: vault put secret kv
+    #       run: |
+    #         k8s_host="$(kubectl exec hashicorp-vault-0 -n controller-vault -- printenv | grep KUBERNETES_PORT_443_TCP_ADDR | cut -f 2- -d "=" | tr -d " ")"
+    #         k8s_port="443"            
+    #         k8s_cacert="$(kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode)"
+    #         tr_account_token="$(kubectl -n controller-vault get secret vault-auth -o jsonpath='{ .data.token }' | base64 --decode)"
+    
+    #         kubectl exec hashicorp-vault-0 -n controller-vault -- \
+    #           vault write auth/kubernetes/config \
+    #           token_reviewer_jwt="${tr_account_token}" \
+    #           kubernetes_host="https://${k8s_host}:${k8s_port}" \
+    #           kubernetes_ca_cert="${k8s_cacert}" \
+    #           disable_issuer_verification=true
+      
+    #     - name: vault write external-secrets-role role
+    #       run: |
+    #         es_account_token="$(kubectl -n controller-vault get secret external-secrets -o jsonpath='{ .data.token }' | base64 --decode)"
+            
+    #         kubectl exec hashicorp-vault-0 -n controller-vault -- vault write auth/kubernetes/role/external-secrets-role \
+    #             bound_service_account_names=external-secrets \
+    #             bound_service_account_namespaces=vault \
+    #             policies=platform-external-secret \
+    #             ttl=24h
+    
+    #     - name: vault write external-secrets-login 
+    #       run: |
+    #         es_account_token="$(kubectl -n controller-vault get secret external-secrets -o jsonpath='{ .data.token }' | base64 --decode)"
+            
+    #         kubectl exec hashicorp-vault-0 -n controller-vault -- vault write auth/kubernetes/login role=external-secrets-role jwt=$es_account_token
+    
+    #     - name: list policy 
+    #       run: |
+    #         kubectl -n controller-vault exec hashicorp-vault-0 -- vault policy list
+    #         kubectl -n controller-vault exec hashicorp-vault-0 -- vault list auth/kubernetes/role
+    
+    #     - name: list policy 2      
+    #       run: |
+    #         kubectl -n controller-vault exec hashicorp-vault-0 -- vault auth list
+    #         kubectl -n controller-vault exec hashicorp-vault-0 -- vault auth list -detailed
+            
+    #     - name: Remove kubeconfig
+    #       run: |
+    #           rm -rf ~/.kube
+    

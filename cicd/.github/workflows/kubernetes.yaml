@@ -88,6 +88,13 @@
         - name: Apply External dns
           run: kubectl apply -R -f ./deployment/gitops/exdns --namespace argoproj
 
+        - name: Apply Hashicorp vault
+          run: kubectl apply -R -f ./deployment/gitops/vault --namespace argoproj
+
+        - name: Apply External secrets
+          run: kubectl apply -R -f ./deployment/gitops/exsecrets --namespace argoproj
+
+
         - name: Remove kubeconfig
           if: always()
           run: |

@@ -34,8 +34,5 @@ server:
     type: ClusterIP
   ingress:
     enabled: kong
-    annotations:
-      external-dns.alpha.kubernetes.io/ttl: "120"
     ingressClassName: kong
-    # AJUSTARo dominio
     hostname: gitops.${{ values.projectName | replace(" ", "-") | lower}}.synera.com.br
