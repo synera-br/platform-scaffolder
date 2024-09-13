@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: shared
+  {%- if values.labels %}
+  labels:
+    {% for key, value in values.labels %}
+      ${{- key }}: "${{ value }}"
+    {% endfor -%}
+  {%- endif  %}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Shared deployments with the cluster
+  destinations:
+  - name: in-cluster
+    namespace: '*'
+    server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceRepos:
+  - https://charts.bitnami.com/bitnami
+  - https://helm.releases.hashicorp.com
+  - https://charts.konghq.com
+  - https://charts.external-secrets.io
+  - https://kubernetes-sigs.github.io/external-dns
+  orphanedResources:
+    warn: false

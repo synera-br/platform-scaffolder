@@ -32,10 +32,10 @@ jobs:
         AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
 
 
-  # CLOUD PROVIDER
-  callTerraformCloudProvider:
+  # STARTS AZURE
+  callTerraformAzure:
     needs: callTerraformScan
-    name: cloud-provider 
+    name: AzureInputs 
     uses: ./.github/workflows/terraform-azure.yml
     if: needs.callTerraformScan.result == 'success'
     secrets:
@@ -43,13 +43,3 @@ jobs:
       ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
       ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
       ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
-
-  callKubernetes2:
-    needs: callTerraformCloudProvider
-    name: applyGitOps 
-    uses: ./.github/workflows/kubernetes.yaml
-    if: needs.callTerraformCloudProvider.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
-    with:
-      kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}

@@ -1,0 +1,41 @@
+crds:
+  install: true
+global:
+  # AJUSTAR AS TAGS
+  domain: synera.com.br
+  {%- if values.labels %}
+  additionalLabels:
+    {% for key, value in values.labels %}
+      ${{- key }}: "${{ value }}"
+    {% endfor -%}
+  {%- else  %}  
+  additionalLabels:  {}
+  {%- endif  %}
+
+argo-cd:
+  dex:
+    enabled: false
+  notifications:
+    enabled: true
+  applicationSet:
+    enabled: false
+  server:
+    extraArgs:
+      - --insecure
+    service:
+      type: ClusterIP
+notifications:
+  enabled: true
+  name: notifications-controller
+server:
+  extraArgs:
+    - --insecure
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: kong
+    annotations:
+      external-dns.alpha.kubernetes.io/ttl: "120"
+    ingressClassName: kong
+    # AJUSTARo dominio
+    hostname: gitops.tutorial2294.synera.com.br

@@ -1,5 +1,4 @@
 ---
-
   name: terraform-azure
   on:
     workflow_call:
@@ -7,18 +6,12 @@
         report:
           description: "The first output string"
           value: ${{ jobs.terraformAzure.outputs.report }}
-        kubeconfig:
-          description: "The first output string"
-          value: ${{ jobs.terraformAzure.outputs.kubeconfig }}
-        action:
-          description: "Action to terraform"
-          value: ${{ jobs.terraformAzure.outputs.action }}
       inputs:
         action:
           description: 'Action to terraform'
           required: false
           type: string
-          default: destroy
+          default: apply
       secrets:
         ARM_SUBSCRIPTION_ID:
           description: 'Azure subscription ID'
@@ -45,8 +38,6 @@
 
       outputs:
         report: ${{ steps.report.outputs.REPORT }}
-        kubeconfig: ${{ steps.aks_cluster_name.outputs.KUBECONFIG }}
-        action: ${{ inputs.action }}
       steps:
         - name: Checkout
           uses: actions/checkout@v4
@@ -81,23 +72,4 @@
         - name: Terraform graph
           run: |
             terraform graph
-          working-directory: ./infra/terraform
-
-        - name: Terraform output
-          id: terraform-output2
-          run: |
-            terraform output -raw kubeconfig
-          working-directory: ./infra/terraform
-
-        - name: Terraform output raw
-          id: terraform-output-raw
-          run: |
-            terraform output -raw kubeconfig
-          working-directory: ./infra/terraform
-
-        - name: Terraform output kube_config
-          id: aks_cluster_name
-          run: |
-            OUTPUT=$(terraform output -raw kube_config_raw|base64 -w 0)
-            echo "::set-output name=KUBECONFIG::$OUTPUT"
           working-directory: ./infra/terraform

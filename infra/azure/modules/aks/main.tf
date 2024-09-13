@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     os_sku                 = var.default_node_pool.os_sku == "" ? "Ubuntu" : var.default_node_pool.os_sku
     pod_subnet_id          = var.default_node_pool.pod_subnet_id != "" ? var.default_node_pool.pod_subnet_id : null
     ultra_ssd_enabled      = var.default_node_pool.ultra_ssd_enabled
-    vm_size                = var.default_node_pool.vm_size == null ? "Standard_DS2_v2" : var.default_node_pool.vm_size
+    vm_size                = var.default_node_pool.vm_size == null ? "Standard_D4s_v3" : var.default_node_pool.vm_size
     zones                  = length(var.default_node_pool.zones) == 0 ? ["1", "2", "3"] : var.default_node_pool.zones
     enable_node_public_ip  = false
     scale_down_mode        = var.scale_down_mode
