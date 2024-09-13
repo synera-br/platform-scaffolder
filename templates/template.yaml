@@ -168,6 +168,7 @@ spec:
           RABBIT_PORT: ${{ steps['get-secrets'].output['RABBIT_PORT'] }}
           RABBIT_USE_SSL: ${{ steps['get-secrets'].output['RABBIT_USE_SSL'] }}
           CATALOG_TOKEN: ${{ steps['get-secrets'].output['CATALOG_TOKEN'] }}
+          CLOUDFLARE_DNS_TOKEN: ${{ steps['get-secrets'].output['CLOUDFLARE_DNS_TOKEN'] }}
           
     - id: wait
       name: working in repository

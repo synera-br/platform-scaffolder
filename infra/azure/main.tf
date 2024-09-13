@@ -6,6 +6,8 @@ locals {
   name           = var.projectName
   environment    = "development"
   private_domain = var.private_domain == "" ? "private.${local.name}.com" : var.private_domain
+
+  kube = module.aks[0].raw
 }
 
 module "resource_group" {

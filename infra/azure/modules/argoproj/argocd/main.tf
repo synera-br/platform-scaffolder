@@ -22,6 +22,6 @@ resource "helm_release" "argocd" {
 
   set {
     name  = "global.additionalLabels"
-    value = var.labels
+    value = jsonencode(var.labels)
   }
 }
