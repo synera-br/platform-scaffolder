@@ -135,6 +135,25 @@ spec:
             instance: ${{ parameters.projectInstance }}
             owner: ${{ parameters.userName }}
             version: ${{ parameters.projectVersion }}
+
+    - id: fetch-deployment
+      name: Fetch kubernetes deployment
+      action: fetch:template
+      input:
+        url: ../deployment
+        targetPath: ./deployment
+        values:
+          projectName: ${{ steps['utils'].output.projectName}}
+          userName: ${{ parameters.userName }}
+          description: description
+          provider: ${{ parameters.cloudProvider }}
+          createdAt: ${{ steps['utils'].output.currentDate}}
+          labels:
+            part-of: ${{ steps['utils'].output.projectName}}
+            system: ${{ steps['utils'].output.projectName}}
+            instance: ${{ parameters.projectInstance }}
+            owner: ${{ parameters.userName }}
+            version: ${{ parameters.projectVersion }}
         
     - id: get-secrets
       name: getting secrets
