@@ -101,10 +101,11 @@ spec:
           userName: ${{ parameters.userName }}
           description: description
           labels:
-            part-of: ${{ steps['utils'].output.projectName}}
-            instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.userName }}
-            version: ${{ parameters.projectVersion }}
+            part-of: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            system: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            instance: ${{ parameters.projectInstance | replace(" ","_") }}
+            owner: ${{ parameters.userName | replace(" ","_") }}
+            version: ${{ parameters.projectVersion | replace(" ","_") }}
 
     - id: fetch-cicd
       name: Fetch CI/CD
@@ -130,11 +131,11 @@ spec:
           provider: ${{ parameters.cloudProvider }}
           createdAt: ${{ steps['utils'].output.currentDate}}
           labels:
-            part-of: ${{ steps['utils'].output.projectName}}
-            system: ${{ steps['utils'].output.projectName}}
-            instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.userName }}
-            version: ${{ parameters.projectVersion }}
+            part-of: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            system: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            instance: ${{ parameters.projectInstance | replace(" ","_") }}
+            owner: ${{ parameters.userName | replace(" ","_") }}
+            version: ${{ parameters.projectVersion | replace(" ","_") }}
 
     - id: fetch-deployment
       name: Fetch kubernetes deployment
@@ -149,11 +150,11 @@ spec:
           provider: ${{ parameters.cloudProvider }}
           createdAt: ${{ steps['utils'].output.currentDate}}
           labels:
-            part-of: ${{ steps['utils'].output.projectName}}
-            system: ${{ steps['utils'].output.projectName}}
-            instance: ${{ parameters.projectInstance }}
-            owner: ${{ parameters.userName }}
-            version: ${{ parameters.projectVersion }}
+            part-of: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            system: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            instance: ${{ parameters.projectInstance | replace(" ","_") }}
+            owner: ${{ parameters.userName | replace(" ","_") }}
+            version: ${{ parameters.projectVersion | replace(" ","_") }}
         
     - id: get-secrets
       name: getting secrets

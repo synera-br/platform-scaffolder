@@ -44,7 +44,13 @@ output "log_analytics" {
   sensitive   = true
 }
 
-output "sync_resources" {
-  value       = jsonencode(module.sync_resources.status_response)
-  description = "Resource Group Backstage entity"
+output "kube_config_raw" {
+  value     = local.kube.kube_config_raw
+  sensitive = true
+}
+
+output "kubeconfig" {
+  value       = yamlencode(local.kube.kube_config[0])
+  description = "Kube config"
+  sensitive = true
 }
