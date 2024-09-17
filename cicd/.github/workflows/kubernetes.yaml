@@ -1,104 +1,110 @@
 ---
-  name: kubernetes-deploy
-  on:
-    workflow_call:
-      inputs:
-        kubeconfig:
-          description: 'Kubeconfig in base64'
-          required: true
-          type: string
-      secrets:
-        CF_API_TOKEN:
-          required: true
+name: kubernetes-deploy
+on:
+  workflow_call:
+    inputs:
+      kubeconfig:
+        description: 'Kubeconfig in base64'
+        required: true
+        type: string
+      argoNamespace:
+        description: 'ArgoCD namespace'
+        required: false
+        type: string
+        default: argoproj
+    secrets:
+      CF_API_TOKEN:
+        required: true
 
-  jobs:
-    kubernetesDeploy:
-      name: deployApps
-      runs-on: ubuntu-20.04
+jobs:
+  kubernetesDeploy:
+    name: deployApps
+    runs-on: ubuntu-20.04
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Install Helm
-          uses: azure/setup-helm@v4
-          with:
-            version: v3.13.0
-            kubeconfig: ${{ inputs.kubeconfig }}
-          env:
-            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.13.0
+          kubeconfig: ${{ inputs.kubeconfig }}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-        - name: Add dependency chart repos
-          run: |
-            helm repo add argo https://argoproj.github.io/argo-helm
-    
-        - name: Search argocd chart
-          run: helm search repo argo
-    
-        - name: Kubeconfig
-          run: |
-            mkdir -p ~/.kube
-            echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
-
-        - name: Install argocd chart
-          run: |
-            helm upgrade -i --values ./deployment/helm/argocd/values.yaml argocd argo/argo-cd --create-namespace --namespace argoproj
-
-        - name: Waiting ArgoCD finish
-          run: |
-              check_command() {
-                  kubectl get secrets -n argoproj argocd-initial-admin-secret -o yaml
-                  if [ $? == 0 ]; then
-                      return 0
-                  else
-                      return 1
-                  fi
-              }
+      - name: Add dependency chart repos
+        run: |
+          helm repo add argo https://argoproj.github.io/argo-helm
   
-              until check_command; do
-                  echo "Waiting ArgoCD..."
-                  sleep 1  
-              done
+      - name: Search argocd chart
+        run: helm search repo argo
   
-              echo "ArgoCD is finished!"
+      - name: Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
 
-        - name: Get services
-          run: |
-            kubectl get svc -n argoproj
-  
-        - name: Get secrets
-          run: |
-            kubectl create ns controller-exdns --dry-run=client -o yaml | kubectl apply -f -
-            kubectl create -n controller-exdns secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} --dry-run=client -o yaml | kubectl apply -f -
-          env:
-            CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - name: Install argocd chart
+        run: |
+          helm upgrade -i --values ./deployment/helm/argocd/values.yaml argocd argo/argo-cd --create-namespace --namespace ${{ inputs.argoNamespace }}
 
-        - name: Provisioning
-          run: sleep 30
-  
-        - name: Create repositories
-          run: kubectl apply -R -f ./deployment/gitops/argocd/repository --namespace argoproj
+      - name: Waiting ArgoCD finish
+        run: |
+            check_command() {
+                kubectl get secrets --namespace ${{ inputs.argoNamespace }} argocd-initial-admin-secret -o yaml
+                if [ $? == 0 ]; then
+                    return 0
+                else
+                    return 1
+                fi
+            }
 
-        - name: Create project
-          run: kubectl apply -f ./deployment/gitops/argocd/project.yaml --namespace argoproj
+            until check_command; do
+                echo "Waiting ArgoCD..."
+                sleep 1  
+            done
 
-        - name: Apply Kong ingress controller
-          run: kubectl apply -f ./deployment/gitops/kong/application.yaml --namespace argoproj
+            echo "ArgoCD is finished!"
 
-        - name: Apply External dns
-          run: kubectl apply -f ./deployment/gitops/exdns/application.yaml --namespace argoproj
+      - name: Get services
+        run: |
+          kubectl get svc -n ${{ inputs.argoNamespace }}
 
-        - name: Apply Hashicorp vault
-          run: kubectl apply -f ./deployment/gitops/vault/application.yaml --namespace argoproj
+      - name: Provisioning
+        run: sleep 15
 
-        - name: Apply External secrets
-          run: kubectl apply -f ./deployment/gitops/exsecrets/application.yaml --namespace argoproj
+      - name: Create repositories
+        run: kubectl apply -R -f ./deployment/gitops/argocd/repository --namespace ${{ inputs.argoNamespace }}
 
-        - name: Apply Secrets integrations secrets
-          run: kubectl apply -R -f ./deployment/gitops/exsecrets/integrations
+      - name: Create project
+        run: kubectl apply -f ./deployment/gitops/argocd/project.yaml --namespace ${{ inputs.argoNamespace }}
 
-        - name: Remove kubeconfig
-          if: always()
-          run: |
-                rm -rf ~/.kube
-        
+
+
+      # - name: Apply Hashicorp vault
+      #   run: kubectl apply -f ./deployment/gitops/vault/application.yaml --namespace argoproj
+
+      # - name: Apply External secrets
+      #   run: kubectl apply -f ./deployment/gitops/exsecrets/application.yaml --namespace argoproj
+
+      # - name: Apply Secrets integrations secrets
+      #   run: kubectl apply -R -f ./deployment/gitops/exsecrets/integrations
+
+      - name: Remove kubeconfig
+        if: always()
+        run: |
+              rm -rf ~/.kube
+
+  callDns:
+    needs: 
+      - kubernetesDeploy
+    name: vault 
+    uses: ./.github/workflows/kubernetes-dns.yaml
+    if: needs.kubernetesDeploy.result == 'success'
+    secrets:
+      CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
+    with:
+      kubeconfig: ${{ inputs.kubeconfig }}
+      argoNamespace: ${{ inputs.argoNamespace }}
+      

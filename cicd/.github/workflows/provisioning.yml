@@ -54,12 +54,12 @@ jobs:
     with:
       kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
 
-  callVault:
-    needs: 
-      - callTerraformCloudProvider
-    name: vault 
-    uses: ./.github/workflows/vault.yaml
-    if: needs.callKubernetes.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
-    with:
-      kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
+  # callVault:
+  #   needs: 
+  #     - callTerraformCloudProvider
+  #   name: vault 
+  #   uses: ./.github/workflows/vault.yaml
+  #   if: needs.callKubernetes.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
+  #   with:
+  #     kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
     
