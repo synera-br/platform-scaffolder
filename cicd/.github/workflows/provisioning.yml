@@ -53,13 +53,3 @@ jobs:
       CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
     with:
       kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
-
-  # callVault:
-  #   needs: 
-  #     - callTerraformCloudProvider
-  #   name: vault 
-  #   uses: ./.github/workflows/vault.yaml
-  #   if: needs.callKubernetes.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
-  #   with:
-  #     kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
-    

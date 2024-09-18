@@ -39,8 +39,9 @@ jobs:
           mkdir -p ~/.kube
           echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
 
-      - name: Get secrets
+      - name: Create secret
         run: |
+          echo $CF_API_TOKEN
           kubectl create namespace controller-exdns --dry-run=client -o yaml | kubectl apply -f -
           kubectl create --namespace controller-exdns secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} --dry-run=client -o yaml | kubectl apply -f -
         env:

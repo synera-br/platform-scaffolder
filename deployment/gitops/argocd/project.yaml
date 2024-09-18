@@ -29,5 +29,6 @@ spec:
   - https://charts.konghq.com
   - https://charts.external-secrets.io
   - https://kubernetes-sigs.github.io/external-dns
+  - https://argoproj.github.io/argo-helm
   orphanedResources:
     warn: false
