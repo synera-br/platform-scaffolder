@@ -86,7 +86,7 @@ spec:
       name: Get utils parameters
       action: synera:utils
       input:
-        projectName: ${{ parameters. projectName}}
+        projectName: ${{ parameters.projectName}}
         codeHash: 4
         currentDate: true
 
