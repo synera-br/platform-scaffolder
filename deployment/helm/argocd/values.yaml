@@ -12,18 +12,7 @@ global:
   additionalLabels:  {}
   {%- endif  %}
 
-argo-cd:
-  dex:
-    enabled: false
-  notifications:
-    enabled: true
-  applicationSet:
-    enabled: false
-  server:
-    extraArgs:
-      - --insecure
-    service:
-      type: ClusterIP
+
 notifications:
   enabled: true
   name: notifications-controller
@@ -36,3 +25,28 @@ server:
     enabled: kong
     ingressClassName: kong
     hostname: gitops.${{ values.projectName | replace(" ", "-") | lower}}.synera.com.br
+  extensions:
+    enabled: true
+    extensionList:
+      - name: rollout-extension
+        env:
+          - name: EXTENSION_URL
+            value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+  initContainers:
+    - name: rollout-extension
+      image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+      env:
+      - name: EXTENSION_URL
+        value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+      volumeMounts:
+        - name: extensions
+          mountPath: /tmp/extensions/
+      securityContext:
+        runAsUser: 1000
+        allowPrivilegeEscalation: false
+  volumeMounts:
+    - name: extensions
+      mountPath: /tmp/extensions/
+  volumes:
+    - name: extensions
+      emptyDir: {}
