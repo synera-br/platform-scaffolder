@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kong
+  name: argo-rollout
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "4"    
   {%- if values.labels %}
   labels:
     {% for key, value in values.labels %}
@@ -13,32 +13,33 @@ metadata:
 spec:
   destination:
     name: ''
-    namespace: controller-kong
+    namespace: argoproj
     server: 'https://kubernetes.default.svc'
   source:
     path: ''
-    repoURL: 'https://charts.konghq.com'
-    targetRevision: 2.41.1
-    chart: kong
+    repoURL: 'https://argoproj.github.io/argo-helm'
+    targetRevision: 2.37.7
+    chart: argo-rollouts
     helm:
       parameters:
       - name: installCRDs
         value: "true"
-      - name: "global.enabled"
-        value: "true"
-      - name: "standalone.enabled"
-        value: "false"
-      - name: "csi.enabled"
-        value: "true"
       values: |
         {%- if values.labels %}
-        extraLabels:
-          {% for key, value in values.labels %}
-            ${{- key }}: "${{ value }}"
-          {% endfor -%}
-        {%- else  %}  
-        extraLabels:  {}
+          global:
+            deploymentLabels::
+            {% for key, value in values.labels %}
+              ${{- key }}: "${{ value }}"
+            {% endfor -%}
         {%- endif  %}
+            
+        dashboard:
+          enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: kong
+            hosts:
+            - rollout.${{ values.projectName | replace(" ", "-") | lower}}.synera.com.br
   sources: []
   project: ${{ values.projectName | replace(" ", "-") | lower}}
   syncPolicy:
