@@ -26,8 +26,8 @@ spec:
         value: "true"
       values: |
         {%- if values.labels %}
-          global:
-            deploymentLabels::
+        global:
+          deploymentLabels:
             {% for key, value in values.labels %}
               ${{- key }}: "${{ value }}"
             {% endfor -%}
