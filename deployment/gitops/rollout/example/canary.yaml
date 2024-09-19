@@ -1,6 +1,3 @@
-# This example demonstrates a Rollout using the canary update strategy with a customized rollout
-# plan. The prescribed steps initially sets a canary weight of 20%, then pauses indefinitely. Once
-# resumed, the rollout performs a gradual, automated 20% weight increase until it reaches 100%.
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
