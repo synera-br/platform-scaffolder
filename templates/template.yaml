@@ -189,6 +189,7 @@ spec:
           RABBIT_USE_SSL: ${{ steps['get-secrets'].output['RABBIT_USE_SSL'] }}
           CATALOG_TOKEN: ${{ steps['get-secrets'].output['CATALOG_TOKEN'] }}
           CLOUDFLARE_DNS_TOKEN: ${{ steps['get-secrets'].output['CLOUDFLARE_DNS_TOKEN'] }}
+          SONAR_CLOUD_TOKEN: ${{ steps['get-secrets'].output['SONAR_CLOUD_TOKEN'] }}
           
     - id: wait
       name: working in repository
