@@ -57,7 +57,7 @@ jobs:
   newrelic:
     runs-on: ubuntu-latest
     name: New Relic
-    needs: build
+    needs: callKubernetes
     if: always()
     steps:
       # This step builds a var with the release tag value to use later
