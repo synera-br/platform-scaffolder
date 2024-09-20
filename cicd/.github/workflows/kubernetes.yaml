@@ -86,8 +86,8 @@ jobs:
       - name: Create project
         run: kubectl apply -f ./deployment/gitops/argocd/project.yaml --namespace ${{ inputs.argoNamespace }}
 
-      # - name: Deploy argo rollouts
-      #   run: kubectl apply -f ./deployment/gitops/rollout/application.yaml --namespace ${{ inputs.argoNamespace }}
+      - name: Deploy argo rollouts
+        run: kubectl apply -f ./deployment/gitops/rollout/application.yaml --namespace ${{ inputs.argoNamespace }}
 
       - name: Remove kubeconfig
         if: always()
