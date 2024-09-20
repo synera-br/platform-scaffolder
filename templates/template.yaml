@@ -90,6 +90,13 @@ spec:
         messgae:
           ${{ each.key }} => ${{ each.value }}
         
+    - id: debuglog2
+      name: Debug2
+      action: debug:log
+      input:
+        messgae:
+          ${{ parameters.repoUrl }}
+        
   #   - id: utils
   #     name: Get utils parameters
   #     action: synera:utils
