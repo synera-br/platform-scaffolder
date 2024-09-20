@@ -10,7 +10,7 @@ spec:
   project: ${{ values.projectName | replace(" ", "-") | lower}}
   source:
     path: deployment/gitops/rollout/example
-    repoURL: https://github.com/synera-br/platform7
+    repoURL: https://github.com/synera-br/${{ values.repositoryName }}
     targetRevision: HEAD
   syncPolicy:
     syncOptions:
