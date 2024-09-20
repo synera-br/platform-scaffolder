@@ -15,17 +15,29 @@ global:
 
 configs:
   styles: |
-   .nav-bar {
-     background: linear-gradient(to bottom, #999, #777, #333, #222, #111);
-   }
+    .nav-bar {
+      background: #222;
+    }
+    .sidebar {
+       background-color: #222;
+     }
+    .sidebar__logo span {
+      display: "Synera sempre ao seu lado";
+    }
+    .sidebar__logo img {
+      content: url(https://synera.com.br/wp-content/uploads/2022/09/logo-normal-branco-150x150.png);
+    }
+    .status-bar__segment__fill {
+             background-color: #222;
+      background: #222;
+    }
 
   cm:
-    ui:
-      bannercontent: "Portal do desenvolvedor"
-      bannerurl: "www.synera.com.br"
-      bannerpermanent: "true"
-      bannerposition: "top"
-      
+    ui.bannercontent: Synera, deploy de forma inteligente
+    ui.bannerurl: "https://www.synera.com.br"
+    ui.bannerpermanent: "true"
+    ui.bannerposition: "top"
+
 notifications:
   enabled: true
   name: notifications-controller
