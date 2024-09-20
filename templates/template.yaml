@@ -173,6 +173,8 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
+        settings:
+          visibility: public
         repoVariables:
           CLOUD_PROVIDER: ${{ parameters.cloudProvider }}
         secrets:
