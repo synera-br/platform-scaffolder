@@ -33,13 +33,10 @@ spec:
             {% endfor -%}
         {%- endif  %}
             
+        controller:
+          replicas: 1
         dashboard:
-          enabled: true
-          ingress:
-            enabled: true
-            ingressClassName: kong
-            hosts:
-            - rollout.${{ values.projectName | replace(" ", "-") | lower}}.synera.com.br
+          enabled: false
   sources: []
   project: ${{ values.projectName | replace(" ", "-") | lower}}
   syncPolicy:
