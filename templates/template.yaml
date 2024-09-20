@@ -93,13 +93,13 @@ spec:
       action: debug:log
       input:
         messgae:
-          ${{ parameters.repoUrl|split('repo=')[0] }}
+          ${{ parameters.repoUrl|split('repo=')[1] }}
     - id: split1
       name: Debug2
       action: debug:log
       input:
         messgae:
-          ${{ parameters.repoUrl.split('repo=')[0] }}
+          ${{ parameters.repoUrl.split('repo=')[1] }}
         
   #   - id: utils
   #     name: Get utils parameters
