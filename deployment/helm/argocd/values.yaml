@@ -13,6 +13,19 @@ global:
   {%- endif  %}
 
 
+configs:
+  styles: |
+   .nav-bar {
+     background: linear-gradient(to bottom, #999, #777, #333, #222, #111);
+   }
+
+  cm:
+    ui:
+      bannercontent: "Portal do desenvolvedor"
+      bannerurl: "www.synera.com.br"
+      bannerpermanent: "true"
+      bannerposition: "top"
+      
 notifications:
   enabled: true
   name: notifications-controller
