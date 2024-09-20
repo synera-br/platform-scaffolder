@@ -121,7 +121,11 @@ jobs:
   deployRollout:
     name: deployRollout
     runs-on: ubuntu-20.04
-
+    needs: 
+      - callDns
+      - callVault
+      - kubernetesDeploy
+    if: needs.kubernetesDeploy.result == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -132,7 +136,7 @@ jobs:
           echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
 
       - name: Deploy argo rollouts
-        run: kubectl apply -f ./deployment/gitops/rollout/application.yaml --namespace ${{ inputs.argoNamespace }}
+        run: kubectl apply -f ./deployment/gitops/rollout/example/application.yaml --namespace ${{ inputs.argoNamespace }}
 
       - name: Remove kubeconfig
         if: always()
