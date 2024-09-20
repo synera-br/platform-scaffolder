@@ -34,7 +34,6 @@ configs:
       content: url(https://synera.com.br/wp-content/uploads/2024/01/logo-normal.png);
     }
     .logo-image img {
-
       content: url(https://synera.com.br/wp-content/uploads/2024/01/logo-normal.png);
     }
     .login {
