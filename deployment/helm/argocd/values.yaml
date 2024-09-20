@@ -50,6 +50,7 @@ configs:
 notifications:
   enabled: true
   name: notifications-controller
+  argoUrl: http://gitops.${{ values.projectName | replace(" ", "-") | lower}}.synera.com.br
 server:
   extraArgs:
     - --insecure
