@@ -53,3 +53,19 @@ jobs:
       CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
     with:
       kubeconfig: ${{ needs.callTerraformCloudProvider.outputs.kubeconfig }}
+
+  newrelic:
+    runs-on: ubuntu-latest
+    name: New Relic
+    needs: callKubernetes
+    if: always()
+    steps:
+      - name: Set Release Version from Tag
+        run: echo "RELEASE_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: New Relic Application Deployment Marker
+        uses: newrelic/deployment-marker-action@v2.3.0
+        with:
+          apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+          guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
+          version: "${{ env.RELEASE_VERSION }}"
+          user: "${{ github.actor }}"
