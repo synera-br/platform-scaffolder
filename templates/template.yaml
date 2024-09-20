@@ -82,14 +82,6 @@ spec:
             allowedOwners:
               - synera-br
   steps:
-    - id: debug-log
-      name: Get utils parameters
-      action: debug:log
-      each: ${{ parameters.repoUrl }}
-      input:
-        messgae:
-          ${{ each.key }} => ${{ each.value }}
-        
     - id: debuglog2
       name: Debug2
       action: debug:log
@@ -101,13 +93,13 @@ spec:
       action: debug:log
       input:
         messgae:
-          ${{ parameters.repoUrl|split('repo=') }}
+          ${{ parameters.repoUrl|split('repo=')[0] }}
     - id: split1
       name: Debug2
       action: debug:log
       input:
         messgae:
-          ${{ parameters.repoUrl.split('repo=') }}
+          ${{ parameters.repoUrl.split('repo=')[0] }}
         
   #   - id: utils
   #     name: Get utils parameters
