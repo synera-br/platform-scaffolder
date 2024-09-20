@@ -106,7 +106,6 @@ jobs:
       kubeconfig: ${{ inputs.kubeconfig }}
       argoNamespace: ${{ inputs.argoNamespace }}
       
-
   callVault:
     needs: 
       - kubernetesDeploy
@@ -119,3 +118,23 @@ jobs:
       kubeconfig: ${{ inputs.kubeconfig }}
       argoNamespace: ${{ inputs.argoNamespace }}
       
+  deployRollout:
+    name: deployRollout
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo ${{ inputs.kubeconfig }}|base64 -d > ~/.kube/config
+
+      - name: Deploy argo rollouts
+        run: kubectl apply -f ./deployment/gitops/rollout/application.yaml --namespace ${{ inputs.argoNamespace }}
+
+      - name: Remove kubeconfig
+        if: always()
+        run: |
+              rm -rf ~/.kube
