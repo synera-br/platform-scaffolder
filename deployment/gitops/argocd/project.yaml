@@ -30,5 +30,6 @@ spec:
   - https://charts.external-secrets.io
   - https://kubernetes-sigs.github.io/external-dns
   - https://argoproj.github.io/argo-helm
+  # - https://github.com/synera-br/${{ values.repositoryName }}
   orphanedResources:
     warn: false
