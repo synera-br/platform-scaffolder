@@ -27,10 +27,20 @@ configs:
     .sidebar__logo img {
       content: url(https://synera.com.br/wp-content/uploads/2022/09/logo-normal-branco-150x150.png);
     }
-    .status-bar__segment__fill {
-             background-color: #222;
-      background: #222;
+    .login .argo__logo {
+      background-image: url(https://synera.com.br/wp-content/uploads/2022/09/1.png);
+     }
+    .login__box img {
+      content: url(https://synera.com.br/wp-content/uploads/2024/01/logo-normal.png);
     }
+    .logo-image img {
+
+      content: url(https://synera.com.br/wp-content/uploads/2024/01/logo-normal.png);
+    }
+    .login {
+      background-color: #222;
+    }
+
 
   cm:
     ui.bannercontent: Synera, deploy de forma inteligente
