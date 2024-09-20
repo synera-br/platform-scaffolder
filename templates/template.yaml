@@ -96,6 +96,18 @@ spec:
       input:
         messgae:
           ${{ parameters.repoUrl }}
+    - id: split2
+      name: Debug2
+      action: debug:log
+      input:
+        messgae:
+          ${{ parameters.repoUrl|split('repo=') }}
+    - id: split1
+      name: Debug2
+      action: debug:log
+      input:
+        messgae:
+          ${{ parameters.repoUrl.split('repo=') }}
         
   #   - id: utils
   #     name: Get utils parameters
