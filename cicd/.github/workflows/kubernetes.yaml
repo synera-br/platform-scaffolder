@@ -45,6 +45,9 @@ jobs:
       - name: Search argocd chart
         run: helm search repo argo
 
+      - name: Create style configmap
+        run: kubectl apply -R -f ./deployment/helm/argocd/custom/cm/style.yaml --namespace ${{ inputs.argoNamespace }}
+
       - name: check if argocd exists
         id: argocd
         run: |
