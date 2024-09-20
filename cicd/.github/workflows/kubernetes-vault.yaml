@@ -191,8 +191,8 @@ jobs:
         run: |
           rm -rf ~/.kube
 
-  debugVault:
-    name: debugLogin
+  configureVaultWithKubernetes:
+    name: configureVaultWithKubernetes
     runs-on: ubuntu-20.04
     needs: kubernetesVaultDeploy
     if: needs.kubernetesVaultDeploy.result == 'success' 
@@ -210,6 +210,10 @@ jobs:
           PASS=$(echo ${{ github.repository }}|base64)
           kubectl --namespace ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }} exec hashicorp-vault-0 -- vault login -method=userpass username=platform password=${PASS}
 
+      - name: vault enable kubernetes
+        run: |
+            kubectl --namespace ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }} exec hashicorp-vault-0 -- vault auth enable kubernetes
+  
       - name: create service account token
         run: |
           SA=$(kubectl get pod -n controller-vault hashicorp-vault-0 -o jsonpath='{.spec.serviceAccountName}'| tr -d ' ')
@@ -312,10 +316,6 @@ jobs:
       - name: vault enable kv
         run: |
           kubectl exec hashicorp-vault-0  -n ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }} -- vault secrets enable -version=2 kv
-          
-      - name: vault enable kubernetes
-        run: |
-            kubectl --namespace ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }} exec hashicorp-vault-0 -- vault auth enable kubernetes
 
       - name: vault create user policy
         run: |
