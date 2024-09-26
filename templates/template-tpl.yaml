@@ -15,7 +15,30 @@ spec:
     - include: ./templates/tpl/parameters/common/02-repo.yaml
 
   steps:
-    - include: ./templates/tpl/steps/common/00-init.yaml
+    - id: utils
+      name: Get utils parameters
+      action: synera:utils
+      input:
+        projectName: ${{ parameters.projectName}}
+        codeHash: 4
+        currentDate: true
+
+    - id: fetch-catalog
+      name: Fetch Catalog
+      action: fetch:template
+      input:
+        url: ../catalog/component
+        targetPath: ./catalog
+        values:
+          projectName: ${{ steps['utils'].output.projectName}}
+          userName: ${{ parameters.userName }}
+          description: description
+          labels:
+            part-of: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            system: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            instance: ${{ parameters.projectInstance | replace(" ","_") }}
+            owner: ${{ parameters.userName | replace(" ","_") }}
+            version: ${{ parameters.projectVersion | replace(" ","_") }}
   output:
     links:
       - title: Documentation
