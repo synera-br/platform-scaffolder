@@ -1,0 +1,16 @@
+---
+title: User information
+required:
+- userName
+- userEmail
+properties:
+    userName:
+        ttile: User name 
+        type: string
+        description: User logged
+        ui:field: UserFieldName
+    userEmail:
+        ttile: Email of user
+        type: string
+        description: Email of user logged
+        ui:field: UserFieldEmail
