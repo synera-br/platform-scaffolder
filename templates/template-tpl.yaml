@@ -16,9 +16,6 @@ spec:
 
   steps:
     - include: ./templates/tpl/steps/common/00-init.yaml
-
-
-
   output:
     links:
       - title: Documentation
