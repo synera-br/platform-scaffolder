@@ -10,9 +10,7 @@ spec:
   owner: syner
   type: service
   parameters:
-    - include: ./templates/tpl/parameters/common/00-user.yaml
-    - include: ./templates/tpl/parameters/common/01-project.yaml
-    - include: ./templates/tpl/parameters/common/02-repo.yaml
+    - include: ./templates/tpl/parameters/common/
 
   steps:
     - id: utils
