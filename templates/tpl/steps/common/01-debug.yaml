@@ -1,6 +1,6 @@
 ---
-- id: debug-log
-  name: Debug log
-  action: debug:log
-  input:
-    message: ok
+id: debug-log
+name: Debug log
+action: debug:log
+input:
+  message: ok
