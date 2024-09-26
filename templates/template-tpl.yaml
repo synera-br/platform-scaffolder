@@ -13,6 +13,8 @@ spec:
     - include: ./templates/tpl/parameters/common/
 
   steps:
+    - include: ./templates/tpl/steps/common/
+
     - id: utils
       name: Get utils parameters
       action: synera:utils
