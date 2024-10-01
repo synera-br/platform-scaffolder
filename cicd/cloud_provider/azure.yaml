@@ -5,7 +5,7 @@
     workflow_call:
       outputs:
         report:
-          description: "The first output string ${{ values.cloudProvider }}"
+          description: "The first output string"
           value: ${{ jobs.terraformAzure.outputs.report }}
         kubeconfig:
           description: "The first output string"
