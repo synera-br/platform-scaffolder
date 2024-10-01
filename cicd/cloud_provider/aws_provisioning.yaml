@@ -23,7 +23,7 @@ jobs:
   callTerraformCloudProvider:
     needs: callTerraformScan
     name: AWS
-    if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
+    if: needs.callTerraformScan.result == 'success'
     uses: ./.github/workflows/cloudProvider.yaml
     secrets:
       AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
