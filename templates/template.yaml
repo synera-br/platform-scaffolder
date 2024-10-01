@@ -116,8 +116,6 @@ spec:
         targetPath: ./.github/workflows
         values:
           projectName: ${{ steps['utils'].output.projectName}}
-          userName: ${{ parameters.userName }}
-          description: description
           cloudProvider: ${{ parameters.cloudProvider }}
 
     - id: fetch-cicd-cloudprovider
