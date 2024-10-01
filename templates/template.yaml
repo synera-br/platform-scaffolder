@@ -112,8 +112,19 @@ spec:
       name: Fetch CI/CD
       action: fetch:plain
       input:
-        url: ../cicd
-        targetPath: ./
+        url: ../cicd/workflows
+        targetPath: ./.github/
+        values:
+          projectName: ${{ steps['utils'].output.projectName}}
+          userName: ${{ parameters.userName }}
+          description: description
+
+    - id: fetch-cicd-cloudprovider
+      name: Fetch CI/CD cloud provider
+      action: fetch:plain:file
+      input:
+        url: ../cicd/.github/cloud_provider/${{ parameters.cloudProvider }}.yaml
+        targetPath: ./.github/workflows
         values:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
@@ -201,16 +212,16 @@ spec:
       input:
         seconds: 15
 
-    - id: dispatch
-      name: dispatch
-      action: github:actions:dispatch
-      input:
-        workflowId: provisioning.yml
-        branchOrTagName: main
-        description: This is 
-        repoUrl: ${{ parameters.repoUrl }}
-        workflowInputs:
-          provider: ${{ parameters.cloudProvider }}
+    # - id: dispatch
+    #   name: dispatch
+    #   action: github:actions:dispatch
+    #   input:
+    #     workflowId: provisioning.yml
+    #     branchOrTagName: main
+    #     description: This is 
+    #     repoUrl: ${{ parameters.repoUrl }}
+    #     workflowInputs:
+    #       provider: ${{ parameters.cloudProvider }}
 
 
   output:

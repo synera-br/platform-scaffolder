@@ -1,0 +1,17 @@
+---
+title: Repository information
+required:
+- repoUrl
+properties:
+    repoUrl:
+        title: Repository Location
+        type: string
+        ui:field: RepoUrlPicker
+        ui:options:
+        allowedRepos:
+            - platform7
+            - platform8
+        allowedHosts:
+            - github.com
+        allowedOwners:
+            - synera-br

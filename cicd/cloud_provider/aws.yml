@@ -1,5 +1,5 @@
 ---
-  name: terraform-azure
+  name: terraform-aws
   on:
     workflow_call:
       outputs:

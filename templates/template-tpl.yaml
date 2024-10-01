@@ -1,0 +1,50 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: plataforma-tpl
+  title: Plataforma tpl
+  description: Template tpl
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  owner: syner
+  type: service
+  parameters:
+    - include: ./templates/tpl/parameters/common/
+
+  steps:
+    - include: ./templates/tpl/steps/common/
+
+    - id: utils
+      name: Get utils parameters
+      action: synera:utils
+      input:
+        projectName: ${{ parameters.projectName}}
+        codeHash: 4
+        currentDate: true
+
+    - id: fetch-catalog
+      name: Fetch Catalog
+      action: fetch:template
+      input:
+        url: ../catalog/component
+        targetPath: ./catalog
+        values:
+          projectName: ${{ steps['utils'].output.projectName}}
+          userName: ${{ parameters.userName }}
+          description: description
+          labels:
+            part-of: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            system: ${{ steps['utils'].output.projectName | replace(" ","_") }}
+            instance: ${{ parameters.projectInstance | replace(" ","_") }}
+            owner: ${{ parameters.userName | replace(" ","_") }}
+            version: ${{ parameters.projectVersion | replace(" ","_") }}
+  output:
+    links:
+      - title: Documentation
+        url: https://platform-demo.synera.com.br/docs/default/template/plataforma-orchestration
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      # - title: Open in catalog
+      #   icon: catalog
+      #   entityRef: ${{ steps['register'].output.entityRef }}
