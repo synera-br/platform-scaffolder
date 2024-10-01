@@ -113,7 +113,7 @@ spec:
       action: fetch:plain
       input:
         url: ../cicd/workflows
-        targetPath: ./.github/
+        targetPath: ./.github/workflows
         values:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
@@ -124,7 +124,7 @@ spec:
       action: fetch:plain:file
       input:
         url: ../cicd/.github/cloud_provider/${{ parameters.cloudProvider }}.yaml
-        targetPath: ./.github/workflows
+        targetPath: ./.github/workflows/cloudProvider.yaml
         values:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
