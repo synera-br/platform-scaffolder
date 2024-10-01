@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/terraform-scan.yml
 
   {%- if values.cloudProvider == 'aws' %}
-  # STARTS AWS
+  # STARTS AWS ${{ values.cloudProvider }}
   callTerraformAws:
     needs: callTerraformScan
     name: AwsInputs
@@ -34,7 +34,7 @@ jobs:
   {%- endif  %}
 
   {%- if values.cloudProvider == 'azure' %}
-  # CLOUD PROVIDER
+  # CLOUD PROVIDER ${{ values.cloudProvider }}
   callTerraformCloudProvider:
     needs: callTerraformScan
     name: cloud-provider 
