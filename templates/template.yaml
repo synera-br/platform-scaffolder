@@ -110,13 +110,17 @@ spec:
 
     - id: fetch-cicd
       name: Fetch CI/CD
-      action: fetch:template
+      action: fetch:plain
       input:
-        url: ../cicd
+        url: ../cicd/workflow
         targetPath: ./.github/workflows
-        values:
-          projectName: ${{ steps['utils'].output.projectName}}
-          cloudProvider: ${{ parameters.cloudProvider }}
+
+    - id: fetch-cicd-cloudprovider
+      name: Fetch Provisioning cloud provider
+      action: fetch:plain:file
+      input:
+        url: ../cicd/cloud_provider/${{ parameters.cloudProvider }}_provisioning.yaml
+        targetPath: ./.github/workflows/provisioning.yaml
 
     - id: fetch-cicd-cloudprovider
       name: Fetch CI/CD cloud provider
@@ -124,11 +128,6 @@ spec:
       input:
         url: ../cicd/cloud_provider/${{ parameters.cloudProvider }}.yaml
         targetPath: ./.github/workflows/cloudProvider.yaml
-        values:
-          projectName: ${{ steps['utils'].output.projectName}}
-          userName: ${{ parameters.userName }}
-          description: description
-          cloudProvider: ${{ parameters.cloudProvider }}
 
     - id: fetch-infra
       name: Fetch infra as code
