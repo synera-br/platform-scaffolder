@@ -11,15 +11,3 @@ metadata:
       ${{- key }}: ${{ value }}
     {% endfor -%}
   {% endif  %}
-spec:
-  type:  ${{ values.cloudProvider | lower}}
-  lifecycle: production
-  owner: ${{ values.userName | lower}}
-  system: ${{ values.labels['part-of'] | lower}}
-  {%- if values.cloudProvider| lower == 'azure' %}
-  azure
-  {%- endif  %}
-  {%- if values.cloudProvider| lower == 'aws' %}
-  aws
-  {%- endif  %}
-
