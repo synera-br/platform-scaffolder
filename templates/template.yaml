@@ -112,7 +112,7 @@ spec:
       name: Fetch CI/CD
       action: fetch:template
       input:
-        url: ../cicd/workflows
+        url: ../cicd
         targetPath: ./.github/workflows
         values:
           projectName: ${{ steps['utils'].output.projectName}}
