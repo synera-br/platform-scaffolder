@@ -110,7 +110,7 @@ spec:
 
     - id: fetch-cicd
       name: Fetch CI/CD
-      action: fetch:plain
+      action: fetch:template
       input:
         url: ../cicd/workflows
         targetPath: ./.github/workflows
