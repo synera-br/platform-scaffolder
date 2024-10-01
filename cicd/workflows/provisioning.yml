@@ -19,33 +19,28 @@ jobs:
     name: Scan
     uses: ./.github/workflows/terraform-scan.yml
 
-  {%- if values.cloudProvider == 'aws' %}
-  # STARTS AWS ${{ values.cloudProvider }}
+  # STARTS AWS
   callTerraformAws:
     needs: callTerraformScan
     name: AwsInputs
-    # if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
     if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
-    uses: ./.github/workflows/terraform-aws.yml
+    uses: ./.github/workflows/cloudProvider.yaml
     secrets:
       AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
-  {%- endif  %}
 
-  {%- if values.cloudProvider == 'azure' %}
-  # CLOUD PROVIDER ${{ values.cloudProvider }}
+  # CLOUD PROVIDER
   callTerraformCloudProvider:
     needs: callTerraformScan
-    name: cloud-provider 
-    uses: ./.github/workflows/terraform-azure.yml
-    if: needs.callTerraformScan.result == 'success'
+    name: Azure
+    uses: ./.github/workflows/cloudProvider.yaml
+    if:  inputs.provider == 'azure' && needs.callTerraformScan.result == 'success'
     secrets:
       ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
       ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
       ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
       ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
-  {%- endif  %}
 
   callKubernetes:
     needs: callTerraformCloudProvider
