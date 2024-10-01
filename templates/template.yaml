@@ -119,8 +119,8 @@ spec:
           userName: ${{ parameters.userName }}
           description: description
 
-    - id: fetch-cicd
-      name: Fetch CI/CD
+    - id: fetch-cicd-cloudprovider
+      name: Fetch CI/CD cloud provider
       action: fetch:plain:file
       input:
         url: ../cicd/.github/cloud_provider/${{ parameters.cloudProvider }}.yaml
