@@ -124,7 +124,7 @@ spec:
       name: Fetch CI/CD cloud provider
       action: fetch:plain:file
       input:
-        url: ../cicd/.github/cloud_provider/${{ parameters.cloudProvider }}.yaml
+        url: ../cicd/cloud_provider/${{ parameters.cloudProvider }}.yaml
         targetPath: ./.github/workflows/cloudProvider.yaml
         values:
           projectName: ${{ steps['utils'].output.projectName}}
