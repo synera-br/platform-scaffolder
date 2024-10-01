@@ -212,16 +212,16 @@ spec:
       input:
         seconds: 15
 
-    - id: dispatch
-      name: dispatch
-      action: github:actions:dispatch
-      input:
-        workflowId: provisioning.yml
-        branchOrTagName: main
-        description: This is 
-        repoUrl: ${{ parameters.repoUrl }}
-        workflowInputs:
-          provider: ${{ parameters.cloudProvider }}
+    # - id: dispatch
+    #   name: dispatch
+    #   action: github:actions:dispatch
+    #   input:
+    #     workflowId: provisioning.yml
+    #     branchOrTagName: main
+    #     description: This is 
+    #     repoUrl: ${{ parameters.repoUrl }}
+    #     workflowInputs:
+    #       provider: ${{ parameters.cloudProvider }}
 
 
   output:
