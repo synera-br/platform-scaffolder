@@ -118,6 +118,7 @@ spec:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
           description: description
+          cloudProvider: ${{ parameters.cloudProvider }}
 
     - id: fetch-cicd-cloudprovider
       name: Fetch CI/CD cloud provider
@@ -129,6 +130,7 @@ spec:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
           description: description
+          cloudProvider: ${{ parameters.cloudProvider }}
 
     - id: fetch-infra
       name: Fetch infra as code
