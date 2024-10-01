@@ -20,9 +20,9 @@ jobs:
     uses: ./.github/workflows/terraform-scan.yaml
 
   # STARTS AWS
-  callTerraformAws:
+  callTerraformCloudProvider:
     needs: callTerraformScan
-    name: AwsInputs
+    name: AWS
     if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
     uses: ./.github/workflows/cloudProvider.yaml
     secrets:
