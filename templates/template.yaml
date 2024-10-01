@@ -112,8 +112,19 @@ spec:
       name: Fetch CI/CD
       action: fetch:plain
       input:
-        url: ../cicd
-        targetPath: ./
+        url: ../cicd/workflows
+        targetPath: ./.github/
+        values:
+          projectName: ${{ steps['utils'].output.projectName}}
+          userName: ${{ parameters.userName }}
+          description: description
+
+    - id: fetch-cicd
+      name: Fetch CI/CD
+      action: fetch:plain:file
+      input:
+        url: ../cicd/.github/cloud_provider/${{ parameters.cloudProvider }}.yaml
+        targetPath: ./.github/workflows
         values:
           projectName: ${{ steps['utils'].output.projectName}}
           userName: ${{ parameters.userName }}
