@@ -112,7 +112,7 @@ spec:
       name: Fetch CI/CD
       action: fetch:plain
       input:
-        url: ../cicd/workflow
+        url: ../cicd/workflows
         targetPath: ./.github/workflows
 
     - id: fetch-provisioning-cloudprovider
