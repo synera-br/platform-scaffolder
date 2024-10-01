@@ -115,7 +115,7 @@ spec:
         url: ../cicd/workflow
         targetPath: ./.github/workflows
 
-    - id: fetch-cicd-cloudprovider
+    - id: fetch-provisioning-cloudprovider
       name: Fetch Provisioning cloud provider
       action: fetch:plain:file
       input:
