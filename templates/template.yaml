@@ -172,7 +172,7 @@ spec:
       name: getting secrets
       action: cloud:vault:get
       input:
-        cloudProvider: ${{ parameters.cloudProvider }}
+        cloudProvider: azure
 
     - id: publish
       name: Publish
