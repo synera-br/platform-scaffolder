@@ -1,56 +1,19 @@
-output "managed" {
-  value       = local.managed_by
-  description = "Manage resources"
+output "name" {
+  value = local.yaml_configs.name
 }
 
-output "labels" {
-  value       = local.labels
-  description = "Labels to filter resources"
+output "tags" {
+  value = local.yaml_configs.tags
 }
 
-output "projectName" {
-  value       = local.name
-  description = "Project name"
+output "provider" {
+  value = local.yaml_configs.provider
 }
 
-output "projectOwner" {
-  value       = local.owner
-  description = "Project owner"
+output "region" {
+  value = local.region
 }
 
-output "environment" {
-  value       = local.name
-  description = "Environment"
-}
-
-output "resource_group" {
-  value       = module.resource_group.raw
-  description = "Resource Group Backstage entity"
-}
-
-output "identity" {
-  value       = module.identity.raw
-  description = "Resource Group Backstage entity"
-}
-
-output "private_dns" {
-  value       = module.private_dns.raw
-  description = "Resource Group Backstage entity"
-}
-
-output "log_analytics" {
-  value       = module.log_analytics.raw
-  description = "Resource Group Backstage entity"
-  sensitive   = true
-}
-
-output "kube_config_raw" {
-  value     = local.kube.kube_config_raw
-  sensitive = true
-}
-
-output "kubeconfig" {
-  value       = yamlencode(local.kube.kube_config[0])
-  description = "Kube config"
-  sensitive = true
+output "ascode" {
+  value = module.ascode
 }
