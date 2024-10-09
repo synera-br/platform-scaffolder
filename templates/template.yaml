@@ -177,7 +177,7 @@ spec:
     - id: publish
       name: Publish
       action: publish:github
-      if: ${{ parameters.cloudProvider === 'azure' }}
+      # if: ${{ parameters.cloudProvider === 'azure' }}
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
