@@ -16,5 +16,5 @@ locals {
       PartOf = "${local.yaml_configs.name}-on-${local.yaml_configs.provider}"
     }
   )
-  region = local.yaml_configs.provider == "aws" ? "us-east-1" : "eastus"
+  region = local.yaml_configs.provider == "aws" ? "us-east-1" : "East US"
 }

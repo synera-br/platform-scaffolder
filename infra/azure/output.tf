@@ -15,5 +15,5 @@ output "region" {
 }
 
 output "ascode" {
-  value = module.ascode
+  value = module.ascode.cluster
 }
