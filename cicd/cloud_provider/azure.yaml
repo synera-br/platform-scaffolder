@@ -69,7 +69,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config=backend.hcl
         working-directory: ./infra/terraform
 
       - name: Terraform Create a plan
