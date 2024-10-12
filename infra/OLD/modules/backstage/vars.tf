@@ -8,10 +8,10 @@ variable "url" {
 variable "filter" {
   type = object({
     provider = string
-    account = string
+    account  = string
   })
   default = {
     provider = "none"
-    account = ""
+    account  = ""
   }
 }

@@ -14,6 +14,16 @@ output "region" {
   value = local.region
 }
 
-output "ascode" {
-  value = module.ascode
+output "cluster" {
+  value     = module.ascode.cluster
+  sensitive = true
+}
+
+output "project_name" {
+  value = module.ascode.project_name
+}
+
+output "kubeconfig" {
+  value     = module.ascode.cluster.cluster.kubeconfig
+  sensitive = true
 }

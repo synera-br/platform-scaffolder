@@ -52,5 +52,5 @@ output "kube_config_raw" {
 output "kubeconfig" {
   value       = yamlencode(local.kube.kube_config[0])
   description = "Kube config"
-  sensitive = true
+  sensitive   = true
 }

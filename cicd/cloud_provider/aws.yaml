@@ -69,11 +69,18 @@
           id: report
           if: inputs.action == 'apply'
           run: |
-            OUTPUT=$(terraform output -raw entity_rsg)
+            OUTPUT=$(terraform output -raw project_name)
             echo "::set-output name=REPORT::$OUTPUT"
           working-directory: ./infra/terraform
 
-        - name: Terraform graph
+        # - name: Terraform graph
+        #   run: |
+        #     terraform graph
+        #   working-directory: ./infra/terraform
+
+        - name: Terraform output kube_config
+          id: aks_cluster_name
           run: |
-            terraform graph
+            OUTPUT=$(terraform output -raw kube_config|base64 -w 0)
+            echo "::set-output name=KUBECONFIG::$OUTPUT"
           working-directory: ./infra/terraform

@@ -48,7 +48,7 @@ module "log_analytics" {
 module "aks" {
   source = "./modules/aks"
   count  = 1
-  name   = "${local.name}"
+  name   = local.name
   tags   = local.labels
 
   identity = {
@@ -85,12 +85,12 @@ module "aks" {
 }
 
 module "sync_resources" {
-  source        = "./modules/backstage"
-  filter =  {
+  source = "./modules/backstage"
+  filter = {
     provider = var.cloudProvider
-    account = ""
+    account  = ""
   }
-  depends_on    = [module.resource_group, module.identity, module.aks]
+  depends_on = [module.resource_group, module.identity, module.aks]
 }
 
 # module "argocd" {
