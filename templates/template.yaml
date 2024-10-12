@@ -6,6 +6,7 @@ metadata:
   description: This template will create the platform orchestration structure
   annotations:
     backstage.io/techdocs-ref: dir:.
+    kubediscovery.com/updateAt: 202410112312
 spec:
   owner: syner
   type: service
