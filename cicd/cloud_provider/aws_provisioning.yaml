@@ -8,7 +8,7 @@ on:
         description: 'Cloud provider'
         required: true
         type: string
-        default: azure
+        default: aws
         
   push:
     branches:
@@ -17,32 +17,18 @@ on:
 jobs:
   callTerraformScan:
     name: Scan
-    uses: ./.github/workflows/terraform-scan.yml
+    uses: ./.github/workflows/terraform-scan.yaml
 
   # STARTS AWS
-  callTerraformAws:
+  callTerraformCloudProvider:
     needs: callTerraformScan
-    name: AwsInputs
-    # if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
-    if:  inputs.provider == 'aws' && needs.callTerraformScan.result == 'success'
-    uses: ./.github/workflows/terraform-aws.yml
+    name: AWS
+    if: needs.callTerraformScan.result == 'success'
+    uses: ./.github/workflows/cloudProvider.yaml
     secrets:
       AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       AWS_DEFAULT_REGION:  "${{ secrets.AWS_DEFAULT_REGION }}"
-
-
-  # CLOUD PROVIDER
-  callTerraformCloudProvider:
-    needs: callTerraformScan
-    name: cloud-provider 
-    uses: ./.github/workflows/terraform-azure.yml
-    if: needs.callTerraformScan.result == 'success'
-    secrets:
-      ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
-      ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
-      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
-      ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
 
   callKubernetes:
     needs: callTerraformCloudProvider
@@ -69,4 +55,3 @@ jobs:
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
           version: "${{ env.RELEASE_VERSION }}"
           user: "${{ github.actor }}"
-

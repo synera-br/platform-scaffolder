@@ -112,12 +112,22 @@ spec:
       name: Fetch CI/CD
       action: fetch:plain
       input:
-        url: ../cicd
-        targetPath: ./
-        values:
-          projectName: ${{ steps['utils'].output.projectName}}
-          userName: ${{ parameters.userName }}
-          description: description
+        url: ../cicd/workflows
+        targetPath: ./.github/workflows
+
+    - id: fetch-provisioning-cloudprovider
+      name: Fetch Provisioning cloud provider
+      action: fetch:plain:file
+      input:
+        url: ../cicd/cloud_provider/${{ parameters.cloudProvider }}_provisioning.yaml
+        targetPath: ./.github/workflows/main.yaml
+
+    - id: fetch-cicd-cloudprovider
+      name: Fetch CI/CD cloud provider
+      action: fetch:plain:file
+      input:
+        url: ../cicd/cloud_provider/${{ parameters.cloudProvider }}.yaml
+        targetPath: ./.github/workflows/cloudProvider.yaml
 
     - id: fetch-infra
       name: Fetch infra as code
@@ -167,6 +177,7 @@ spec:
     - id: publish
       name: Publish
       action: publish:github
+      # if: ${{ parameters.cloudProvider === 'azure' }}
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
@@ -196,23 +207,23 @@ spec:
           AWS_ACCESS_KEY_ID: ${{ steps['get-secrets'].output['AWS_ACCESS_KEY_ID'] }}
           AWS_SECRET_ACCESS_KEY: ${{ steps['get-secrets'].output['AWS_SECRET_ACCESS_KEY'] }}
           AWS_REGION: ${{ steps['get-secrets'].output['AWS_REGION'] }}
-
+          
     - id: wait
       name: working in repository
       action: debug:wait
       input:
         seconds: 15
 
-    - id: dispatch
-      name: dispatch
-      action: github:actions:dispatch
-      input:
-        workflowId: provisioning.yml
-        branchOrTagName: main
-        description: This is 
-        repoUrl: ${{ parameters.repoUrl }}
-        workflowInputs:
-          provider: ${{ parameters.cloudProvider }}
+    # - id: dispatch
+    #   name: dispatch
+    #   action: github:actions:dispatch
+    #   input:
+    #     workflowId: provisioning.yml
+    #     branchOrTagName: main
+    #     description: This is 
+    #     repoUrl: ${{ parameters.repoUrl }}
+    #     workflowInputs:
+    #       provider: ${{ parameters.cloudProvider }}
 
 
   output:
