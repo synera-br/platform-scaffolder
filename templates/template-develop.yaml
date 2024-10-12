@@ -75,8 +75,8 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedRepos:
-              - platform7
-              - platform8
+              - platform9
+              - platform10
             allowedHosts:
               - github.com
             allowedOwners:
