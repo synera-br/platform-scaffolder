@@ -167,7 +167,6 @@ spec:
     - id: publish
       name: Publish
       action: publish:github
-      if: ${{ parameters.cloudProvider === 'azure' }}
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
@@ -194,7 +193,10 @@ spec:
           CATALOG_TOKEN: ${{ steps['get-secrets'].output['CATALOG_TOKEN'] }}
           CLOUDFLARE_DNS_TOKEN: ${{ steps['get-secrets'].output['CLOUDFLARE_DNS_TOKEN'] }}
           SONAR_CLOUD_TOKEN: ${{ steps['get-secrets'].output['SONAR_CLOUD_TOKEN'] }}
-          
+          AWS_ACCESS_KEY_ID: ${{ steps['get-secrets'].output['AWS_ACCESS_KEY_ID'] }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps['get-secrets'].output['AWS_SECRET_ACCESS_KEY'] }}
+          AWS_REGION: ${{ steps['get-secrets'].output['AWS_REGION'] }}
+
     - id: wait
       name: working in repository
       action: debug:wait
