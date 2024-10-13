@@ -24,6 +24,6 @@ output "project_name" {
 }
 
 output "kubeconfig" {
-  value     = module.ascode.cluster.kubeconfig
+  value     = module.ascode.cluster.cluster.kubeconfig
   sensitive = true
 }

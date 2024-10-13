@@ -78,9 +78,9 @@ jobs:
       #     terraform graph
       #   working-directory: ./infra/terraform
 
-      - name: Terraform output kube_config
+      - name: Terraform output kubeconfig
         id: aks_cluster_name
         run: |
-          OUTPUT=$(terraform output -raw kube_config|base64 -w 0)
+          OUTPUT=$(terraform output -raw kubeconfig|base64 -w 0)
           echo "::set-output name=KUBECONFIG::$OUTPUT"
         working-directory: ./infra/terraform
