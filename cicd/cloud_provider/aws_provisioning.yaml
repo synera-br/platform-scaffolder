@@ -34,7 +34,7 @@ jobs:
     needs: callTerraformCloudProvider
     name: applyGitOps 
     uses: ./.github/workflows/kubernetes.yaml
-    if: needs.callTerraformCloudProvider.result == 'success' && needs.callTerraformCloudProvider.outputs.action == 'apply'
+    if: needs.callTerraformCloudProvider.result == 'success'
     secrets:
       CF_API_TOKEN: ${{ secrets.CLOUDFLARE_DNS_TOKEN }}
     with:
