@@ -57,7 +57,7 @@ jobs:
 
     outputs:
       report: ${{ steps.report.outputs.REPORT }}
-      kubeconfig: ${{ steps.aks_cluster_name.outputs.KUBECONFIG }}
+      kubeconfig: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
       action: ${{ inputs.action }}
     steps:
       - name: Checkout
@@ -84,13 +84,16 @@ jobs:
         run: terraform ${{ inputs.action }} -parallelism=20 --auto-approve
         working-directory: ./infra/terraform
 
-      # - name: Terraform graph
-      #   run: |
-      #     terraform graph
-      #   working-directory: ./infra/terraform
+      - name: Terraform output project name
+        id: report
+        if: inputs.action == 'apply'
+        run: |
+          OUTPUT=$(terraform output -raw project_name)
+          echo "::set-output name=REPORT::$OUTPUT"
+        working-directory: ./infra/terraform
 
       - name: Terraform output kubeconfig
-        id: aks_cluster_name
+        id: kubeconfig
         run: |
           OUTPUT=$(terraform output -raw kubeconfig|base64 -w 0)
           echo "::set-output name=KUBECONFIG::$OUTPUT"

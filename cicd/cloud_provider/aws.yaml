@@ -4,8 +4,14 @@ on:
   workflow_call:
     outputs:
       report:
-        description: "The report output of terraform"
+        description: "The first output string"
         value: ${{ jobs.terraformAws.outputs.report }}
+      kubeconfig:
+        description: "The first output string"
+        value: ${{ jobs.terraformAws.outputs.kubeconfig }}
+      action:
+        description: "Action to terraform"
+        value: ${{ jobs.terraformAws.outputs.action }}
     inputs:
       action:
         description: 'Action to terraform'
@@ -34,6 +40,8 @@ jobs:
 
     outputs:
       report: ${{ steps.report.outputs.REPORT }}
+      kubeconfig: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
+      action: ${{ inputs.action }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -73,13 +81,8 @@ jobs:
           echo "::set-output name=REPORT::$OUTPUT"
         working-directory: ./infra/terraform
 
-      # - name: Terraform graph
-      #   run: |
-      #     terraform graph
-      #   working-directory: ./infra/terraform
-
       - name: Terraform output kubeconfig
-        id: aks_cluster_name
+        id: kubeconfig
         run: |
           OUTPUT=$(terraform output -raw kubeconfig|base64 -w 0)
           echo "::set-output name=KUBECONFIG::$OUTPUT"

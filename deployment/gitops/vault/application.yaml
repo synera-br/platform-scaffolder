@@ -25,6 +25,9 @@ spec:
         ui:
           enabled: true
         server:
+          affinity: ""
+          dataStorage:
+            enabled: false
           ingress:
             enabled: true
             ingressClassName: kong
@@ -42,7 +45,7 @@ spec:
                 cluster_address = "[::]:8201"
               }
               storage "file" {
-                path = "/vault/data2"
+                path = "/vault/data"
               }
           ha:
             enabled: false

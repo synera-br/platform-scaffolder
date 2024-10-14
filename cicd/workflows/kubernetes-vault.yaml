@@ -212,7 +212,10 @@ jobs:
 
       - name: vault enable kubernetes
         run: |
+          kubectl --namespace controller-vault exec hashicorp-vault-0 -- vault auth list|grep ^kubernetes
+          if [[ $? -eq 1 ]]; then
             kubectl --namespace ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }} exec hashicorp-vault-0 -- vault auth enable kubernetes
+          fi
   
       - name: create service account token
         run: |
@@ -249,6 +252,9 @@ jobs:
             kubernetes_ca_cert="${k8s_cacert}" \
             disable_issuer_verification=true
 
+      - name: Apply Secrets integrations secrets
+        run: kubectl apply -R --namespace ${{ needs.kubernetesVaultDeploy.outputs.vaultNamespace }}  -f ./deployment/gitops/exsecrets/integrations
+        
       - name: vault write external-secrets-role role
         run: |
           es_account_token="$(kubectl -n controller-vault get secret external-secrets -o jsonpath='{ .data.token }' | base64 --decode)"
